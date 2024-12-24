@@ -5,8 +5,8 @@ Quando o cliente solicitar o de envio da mensagem - Deve ser verificado o tipo d
 Caso for pré-pago, verificar os créditos do cliente para envio que custam 0,25 cada
 Caso for pós-pago, registrar o consumo na conta até o limite máximo autorizado
 
-Um cliente terá, Id, Nome, e-mail, telefone, CPF, responsável, CNPJ, Nome da empresa, e CONTA(VO):(Plano, créditos, limite)
-Um usuário final terá, Id, Nome, telefone, e-mail
+Um cliente terá, Id, Nome, e-mail, telefone, CPF responsável, CNPJ, Nome da empresa, e CONTA(VO):(Plano, créditos, limite)
+Um destinatario terá, Id, Nome, telefone, e-mail
 
 Mensagem - id, número de telefone, é whatsapp?, texto, chat, data/hora do envio
 MensagemHistórico - Cliente, Plano, Consumido, DataHota, Mensagem
