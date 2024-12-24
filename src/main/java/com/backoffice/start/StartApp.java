@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.backoffice.modules.cliente.entity.Cliente;
-import com.backoffice.modules.cliente.entity.Conta;
+import com.backoffice.modules.cliente.entity.ClienteEntity;
 import com.backoffice.modules.cliente.enums.PlanoEnum;
 import com.backoffice.modules.cliente.repository.ClienteRepository;
+import com.backoffice.modules.cliente.vo.Conta;
 
 @Component
 public class StartApp implements ApplicationRunner {
@@ -20,7 +20,7 @@ public class StartApp implements ApplicationRunner {
     @Override
     public void run(org.springframework.boot.ApplicationArguments args) throws Exception {
 
-        Cliente leon = new Cliente();
+        ClienteEntity leon = new ClienteEntity();
         leon.setNome("Leon");
         leon.setCpfResponsavel("70912137002");
         leon.setEmail("leon@leon.com");

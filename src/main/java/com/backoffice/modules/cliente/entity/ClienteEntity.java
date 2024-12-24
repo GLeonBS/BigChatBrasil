@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.backoffice.modules.cliente.vo.Conta;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -28,7 +30,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString
-public class Cliente {
+public class ClienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,17 +43,17 @@ public class Cliente {
     @NotNull
     private String email;
 
-    @Column(length = 14)
-    @Size(max = 14)
+    @Column(length = 11)
+    @Size(min = 11, max = 11, message = "O campo telefone deve conter 11 caracteres")
     private String telefone;
 
     @Column(length = 11, name = "cpf")
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11, message = "O campo cpf deve conter 11 caracteres")
     @CPF
     private String cpfResponsavel;
 
     @Column(length = 14)
-    @Size(min = 14, max = 14)
+    @Size(min = 14, max = 14, message = "O campo cnpj deve conter 14 caracteres")
     @CNPJ
     private String cnpj;
 

@@ -1,4 +1,4 @@
-package com.backoffice.modules.cliente.entity;
+package com.backoffice.modules.cliente.vo;
 
 import java.math.BigDecimal;
 
@@ -8,12 +8,14 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
 @Embeddable
 public class Conta {
 
+    @Getter
     @NotNull
     @Enumerated(EnumType.STRING)
     private PlanoEnum plano;

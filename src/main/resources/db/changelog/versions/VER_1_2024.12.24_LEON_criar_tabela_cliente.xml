@@ -22,7 +22,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column type="VARCHAR(14)" name="telefone"/>
+            <column type="VARCHAR(11)" name="telefone"/>
 
             <column type="VARCHAR(11)" name="cpf"/>
 
@@ -30,7 +30,9 @@
 
             <column type="${text}" name="nome_empresa"/>
 
-            <column type="${text}" name="plano"/>
+            <column type="${text}" name="plano">
+                <constraints nullable="false"/>
+            </column>
 
             <column type="${numeric}" name="credito"/>
 
