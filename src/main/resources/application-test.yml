@@ -1,0 +1,20 @@
+spring:
+  liquibase:
+    enabled: false
+  config:
+      activate:
+        on-profile: test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+server:
+  port: 9090
+
