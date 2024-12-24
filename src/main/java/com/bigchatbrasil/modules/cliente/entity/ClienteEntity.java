@@ -1,11 +1,11 @@
-package com.backoffice.modules.cliente.entity;
+package com.bigchatbrasil.modules.cliente.entity;
 
 import java.util.UUID;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.backoffice.modules.cliente.vo.Conta;
+import com.bigchatbrasil.modules.cliente.vo.Conta;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

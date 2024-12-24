@@ -1,8 +1,8 @@
-package com.backoffice.modules.cliente.vo;
+package com.bigchatbrasil.modules.cliente.vo;
 
 import java.math.BigDecimal;
 
-import com.backoffice.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

@@ -1,4 +1,4 @@
-package com.backoffice.modules.cliente.enums;
+package com.bigchatbrasil.modules.cliente.enums;
 
 public enum PlanoEnum {
     PRE_PAGO,

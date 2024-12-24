@@ -1,4 +1,4 @@
-package com.backoffice.start;
+package com.bigchatbrasil.start;
 
 import java.math.BigDecimal;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.backoffice.modules.cliente.entity.ClienteEntity;
-import com.backoffice.modules.cliente.enums.PlanoEnum;
-import com.backoffice.modules.cliente.repository.ClienteRepository;
-import com.backoffice.modules.cliente.vo.Conta;
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
+import com.bigchatbrasil.modules.cliente.vo.Conta;
 
 @Component
 public class StartApp implements ApplicationRunner {
