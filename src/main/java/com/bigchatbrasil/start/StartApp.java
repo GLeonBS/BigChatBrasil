@@ -1,39 +1,25 @@
 package com.bigchatbrasil.start;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
-import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
-import com.bigchatbrasil.modules.cliente.vo.Conta;
+import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
+import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 
 @Component
 public class StartApp implements ApplicationRunner {
 
     @Autowired
-    private ClienteRepository repository;
+    private MensagemRepository repository;
 
     @Override
     public void run(org.springframework.boot.ApplicationArguments args) throws Exception {
 
-        ClienteEntity leon = new ClienteEntity();
-        leon.setNome("Leon");
-        leon.setCpfResponsavel("70912137002");
-        leon.setEmail("leon@leon.com");
-        leon.setTelefone("12345678901");
-        leon.setCnpj("28742150000190");
-        leon.setNomeEmpresa("Leon LTDA");
+        MensagemEntity mensagem = new MensagemEntity();
+        mensagem.setTexto("Oilá como vai?");
+        mensagem.setNumeroTelefone("99999999999");
 
-        Conta conta = new Conta();
-        conta.setPlano(PlanoEnum.POS_PAGO);
-        conta.setLimite(new BigDecimal("1000.00"));
-
-        leon.setConta(conta);
-
-        repository.save(leon);
+        repository.save(mensagem);
     }
 }

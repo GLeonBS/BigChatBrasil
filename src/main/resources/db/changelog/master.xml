@@ -9,9 +9,11 @@
     <property name="text" value="VARCHAR(255)" dbms="postgresql"/>
     <property name="id" value="uuid" dbms="postgresql"/>
     <property name="numeric" value="NUMERIC(10,2)" dbms="postgresql"/>
+    <property name="boolean" value="boolean" dbms="postgresql"/>
 
     <!--versions-->
     <include file="versions/VER_1_2024.12.24_LEON_criar_tabela_cliente.xml" relativeToChangelogFile="true"/>
+    <include file="versions/VER_2_2024.12.25_LEON_criar_tabela_mensagem.xml" relativeToChangelogFile="true"/>
 
 
 </databaseChangeLog>
