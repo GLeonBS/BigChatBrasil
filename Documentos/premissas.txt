@@ -6,17 +6,17 @@ Caso for pré-pago, verificar os créditos do cliente para envio que custam 0,25
 Caso for pós-pago, registrar o consumo na conta até o limite máximo autorizado
 
 Um cliente terá, Id, Nome, e-mail, telefone, CPF responsável, CNPJ, Nome da empresa, e CONTA(VO):(Plano, créditos, limite)
-Um destinatario terá, Id, Nome, telefone, e-mail, preciso mesmo? E se eu só informar os números de telefones?
+Um destinatario terá, Id, Nome, telefone
 
 Mensagem - id, número de telefone, é whatsapp?, texto, chat, data/hora do envio
 MensagemHistórico - Cliente, Plano, Consumido, DataHota, Mensagem
-CHAT - id, remetente, destinatários, mensagens
+CHAT - id, remetente, destinatários ? podem ser apenas números, mensagens
 Cada cliente precisa ser préviamente cadastrado
 
 Um cliente enviará para vários usuários finais?
 Acredito que sim, com base na frase "Precisamos que seja possível via web ou mobile que os clientes enviem mensagens para seus usuários finais"
 
-É via websocker?
+É via websocket?
 Acredito que não, considerando que a mensagem pode ser via WhatsApp, não é um chat em tempo real, e sim uma mensagem que será enviada para os usuários finais
 
 Os usuários finais são cadastrados?
@@ -36,7 +36,7 @@ Domínios Principais:
 Contexto de cadastro:
     - Cliente
     - Mensagem
-    - Usuário final
+    - Usuário final(destinatário)
     - Chat
 
 

@@ -14,6 +14,7 @@
     <!--versions-->
     <include file="versions/VER_1_2024.12.24_LEON_criar_tabela_cliente.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_2_2024.12.25_LEON_criar_tabela_mensagem.xml" relativeToChangelogFile="true"/>
-
+    <include file="versions/VER_3_2024.12.25_LEON_criar_tabela_destinatario.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
+
