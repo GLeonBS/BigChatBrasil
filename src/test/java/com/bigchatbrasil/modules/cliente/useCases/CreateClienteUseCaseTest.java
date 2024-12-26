@@ -48,7 +48,8 @@ class CreateClienteUseCaseTest {
                 .conta(contaRequestDTO)
                 .build();
 
-        Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito());
+        Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
+                BigDecimal.ZERO);
 
         ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), createClienteRequestDTO.nome(),
                 createClienteRequestDTO.email(),
@@ -79,7 +80,8 @@ class CreateClienteUseCaseTest {
                 .conta(contaRequestDTO)
                 .build();
 
-        Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito());
+        Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
+                BigDecimal.ZERO);
 
         ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), createClienteRequestDTO.nome(),
                 createClienteRequestDTO.email(),

@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ class ClienteControllerTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        repository.deleteAll();
     }
 
     @Test

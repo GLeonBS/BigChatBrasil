@@ -1,5 +1,7 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,7 @@ public class CreateClienteUseCase {
         BeanUtils.copyProperties(createClienteRequestDTO, clienteEntity);
         BeanUtils.copyProperties(createClienteRequestDTO.conta(), conta);
         clienteEntity.setConta(conta);
+        clienteEntity.getConta().setLimiteConsumido(BigDecimal.ZERO);
 
         return repository.save(clienteEntity);
     }

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,9 +39,11 @@ public class ChatEntity {
     @JoinColumn(name = "remetente_id")
     private ClienteEntity remetente;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "chat")
     private List<ChatDestinatarioEntity> destinatarios = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "chat")
     private List<MensagemEntity> mensagens = new ArrayList<>();
 }

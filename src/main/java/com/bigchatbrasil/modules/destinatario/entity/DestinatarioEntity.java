@@ -1,15 +1,19 @@
 package com.bigchatbrasil.modules.destinatario.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.bigchatbrasil.modules.chat.entity.ChatDestinatarioEntity;
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +42,12 @@ public class DestinatarioEntity {
     @Size(min = 11, max = 11, message = "O campo telefone deve conter 11 caracteres")
     private String numeroTelefone;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private ClienteEntity cliente;
+
     @OneToMany(mappedBy = "destinatario")
-    private List<ChatDestinatarioEntity> chats;
+    private List<ChatDestinatarioEntity> chats = new ArrayList<>();
 
 }
