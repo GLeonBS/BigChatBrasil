@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="criacao-de-tabela-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cliente"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cliente">
+
+            <column type="${id}" name="id">
+                <constraints primaryKeyName="id_cliente" primaryKey="true" nullable="false"/>
+            </column>
+
+            <column type="${text}" name="nome"/>
+
+            <column type="${text}" name="email">
+                <constraints nullable="false"/>
+            </column>
+
+            <column type="VARCHAR(11)" name="telefone"/>
+
+            <column type="VARCHAR(11)" name="cpf"/>
+
+            <column type="VARCHAR(14)" name="cnpj"/>
+
+            <column type="${text}" name="nome_empresa"/>
+
+            <column type="${text}" name="plano">
+                <constraints nullable="false"/>
+            </column>
+
+            <column type="${numeric}" name="credito"/>
+
+            <column type="${numeric}" name="limite"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
