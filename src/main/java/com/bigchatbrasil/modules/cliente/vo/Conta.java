@@ -29,4 +29,12 @@ public class Conta {
             return limite;
         }
     }
+
+    public void setSaldo(BigDecimal saldo) {
+        if (PlanoEnum.PRE_PAGO.equals(plano)) {
+            this.credito = saldo;
+        } else {
+            this.limite = saldo;
+        }
+    }
 }

@@ -10,7 +10,7 @@ Um destinatario terá, Id, Nome, telefone
 
 Mensagem - id, número de telefone, é whatsapp?, texto, chat, data/hora do envio
 MensagemHistórico - Cliente, Plano, Consumido, DataHota, Mensagem
-CHAT - id, remetente, destinatários ? podem ser apenas números, mensagens
+CHAT - id, remetente, destinatários, mensagens ? podem ser apenas números, mensagens
 Cada cliente precisa ser préviamente cadastrado
 
 Um cliente enviará para vários usuários finais?

@@ -5,11 +5,15 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.bigchatbrasil.modules.chat.entity.ChatEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Table(name = "mensagem")
@@ -25,7 +28,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString
 public class MensagemEntity {
 
     @Id
@@ -42,6 +44,11 @@ public class MensagemEntity {
 
     @NotNull
     private String texto;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private ChatEntity chat;
 
     @Column(name = "data_hora_envio")
     @CreationTimestamp
