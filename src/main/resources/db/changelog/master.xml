@@ -16,6 +16,7 @@
     <include file="versions/VER_2_2024.12.25_LEON_criar_tabela_mensagem.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_3_2024.12.25_LEON_criar_tabela_destinatario.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_4_2024.12.26_LEON_criar_tabela_chat.xml" relativeToChangelogFile="true"/>
+    <include file="versions/VER_5_2024.12.26_LEON_add_cliente_destinatario.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
 
