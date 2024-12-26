@@ -20,8 +20,9 @@ public class DestinatarioController {
     private CreateDestinatarioUseCase createDestinatarioUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<DestinatarioEntity> createDestinatario(@RequestBody CreateDestinatarioRequestDTO cliente) {
-        return ResponseEntity.ok(this.createDestinatarioUseCase.execute(cliente));
+    public ResponseEntity<DestinatarioEntity> createDestinatario(
+            @RequestBody CreateDestinatarioRequestDTO destinatario) {
+        return ResponseEntity.ok(this.createDestinatarioUseCase.execute(destinatario));
     }
 
 }

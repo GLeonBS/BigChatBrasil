@@ -16,11 +16,11 @@ public class CreateDestinatarioUseCase {
 
     private final DestinatarioRepository repository;
 
-    private final FindClienteUseCase clienteRepository;
+    private final FindClienteUseCase findClienteUseCase;
 
     public DestinatarioEntity execute(CreateDestinatarioRequestDTO createDestinatarioRequestDTO) {
         DestinatarioEntity destinatarioEntity = new DestinatarioEntity();
-        destinatarioEntity.setCliente(clienteRepository.execute(createDestinatarioRequestDTO.clienteId()));
+        destinatarioEntity.setCliente(findClienteUseCase.execute(createDestinatarioRequestDTO.clienteId()));
         BeanUtils.copyProperties(createDestinatarioRequestDTO, destinatarioEntity);
 
         return repository.save(destinatarioEntity);
