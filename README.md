@@ -36,7 +36,7 @@ A API possui os seguintes endpoints:
 - `POST /add-saldo-credito/{id}`: Adiciona saldo de crédito a um cliente caso ele tenha uma conta com plano Pré Pago.
 - `GET /cliente/{id}`: Retorna os detalhes de um cliente específico.
 - `GET /cliente/saldo/{id}`: Retorna o saldo de um cliente específico.
-- `PUT /cliente/`: Atualiza os dados de uma pessoa existente.
+- `PUT /cliente/`: Atualiza os dados de um cliente existente.
 - `POST /destinatario`: Para criar um novo destinatário.
 - `POST /chat`: Para criar um novo chat.
 - `POST /mensagem`: Para enviar uma mensagem.
@@ -61,7 +61,7 @@ Os dados são enviados e retornados no formato JSON.
 }
 ```
 
-### Exemplo de resposta para a rota `GET /person/{id}`:
+### Exemplo de resposta para a rota `GET /cliente/{id}`:
 
 ```json
 {
