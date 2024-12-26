@@ -29,7 +29,7 @@ class CreateMensagemUseCaseTest {
     private CreateMensagemUseCase createMensagemUseCase;
 
     @Test
-    void shouldBeCreateDestinatario() {
+    void shouldBeCreateMensagem() {
         UUID chatId = UUID.randomUUID();
         var mensagem = CreateMensagemRequestDTO.builder()
                 .texto("Olá!")

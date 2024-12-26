@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.math.BigDecimal;
 import java.util.Collections;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.bigchatbrasil.config.TestUtils;
 import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
+import com.bigchatbrasil.modules.chat.repository.ChatDestinatarioRepository;
+import com.bigchatbrasil.modules.chat.repository.ChatRepository;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
@@ -39,11 +42,25 @@ class ChatControllerTest {
     @Autowired
     private DestinatarioRepository destinatarioRepository;
 
+    @Autowired
+    private ChatRepository chatRepository;
+
+    @Autowired
+    private ChatDestinatarioRepository chatDestinatarioRepository;
+
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        chatDestinatarioRepository.deleteAll();
+        destinatarioRepository.deleteAll();
+        chatRepository.deleteAll();
+        clienteRepository.deleteAll();
     }
 
     @Test

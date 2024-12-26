@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
+import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -34,11 +36,20 @@ class DestinatarioControllerTest {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private DestinatarioRepository destinatarioRepository;
+
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        destinatarioRepository.deleteAll();
+        clienteRepository.deleteAll();
     }
 
     @Test
@@ -58,7 +69,7 @@ class DestinatarioControllerTest {
         cliente.setConta(conta);
 
         ClienteEntity clienteSalvo = clienteRepository.saveAndFlush(cliente);
-        
+
         CreateDestinatarioRequestDTO createDestinatarioRequestDTO = CreateDestinatarioRequestDTO.builder()
                 .nome("Leon")
                 .numeroTelefone("44999999999")

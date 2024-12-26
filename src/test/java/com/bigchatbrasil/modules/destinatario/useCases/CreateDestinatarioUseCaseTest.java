@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bigchatbrasil.modules.cliente.useCases.FindClienteUseCase;
 import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
 import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
@@ -20,6 +21,9 @@ import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 class CreateDestinatarioUseCaseTest {
     @Mock
     private DestinatarioRepository repository;
+
+    @Mock
+    private FindClienteUseCase findClienteUseCase;
 
     @InjectMocks
     private CreateDestinatarioUseCase createDestinatarioUseCase;
