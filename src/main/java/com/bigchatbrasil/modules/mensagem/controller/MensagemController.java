@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.useCases.CreateMensagemUseCase;
+import com.bigchatbrasil.modules.mensagem.useCases.EnviarMensagemUseCase;
 
 import lombok.AllArgsConstructor;
 
@@ -17,11 +17,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MensagemController {
 
-    private CreateMensagemUseCase createMensagemUseCase;
+    private EnviarMensagemUseCase enviarMensagemUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<MensagemEntity> createMensagem(@RequestBody CreateMensagemRequestDTO mensagem) {
-        return ResponseEntity.ok(this.createMensagemUseCase.execute(mensagem));
+    public ResponseEntity<MensagemEntity> enviarMensagem(@RequestBody CreateMensagemRequestDTO mensagem) {
+        return ResponseEntity.ok(this.enviarMensagemUseCase.execute(mensagem));
     }
 
 }

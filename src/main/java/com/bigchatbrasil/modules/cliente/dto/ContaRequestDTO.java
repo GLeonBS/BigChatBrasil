@@ -7,5 +7,5 @@ import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 import lombok.Builder;
 
 @Builder
-public record ContaRequestDTO(PlanoEnum plano, BigDecimal credito, BigDecimal limite) {
+public record ContaRequestDTO(PlanoEnum plano, BigDecimal credito, BigDecimal limite, BigDecimal limiteConsumido) {
 }

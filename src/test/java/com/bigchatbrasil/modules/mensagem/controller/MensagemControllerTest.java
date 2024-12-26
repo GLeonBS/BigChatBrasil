@@ -70,7 +70,7 @@ class MensagemControllerTest {
     }
 
     @Test
-    void createMensagem() throws Exception {
+    void enviarMensagem() throws Exception {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon");
         cliente.setCnpj("40089815000103");

@@ -25,12 +25,13 @@ public class Conta {
     private PlanoEnum plano;
     private BigDecimal credito = BigDecimal.ZERO;
     private BigDecimal limite = BigDecimal.ZERO;
+    private BigDecimal limiteConsumido = BigDecimal.ZERO;
 
     public BigDecimal getSaldo() {
         if (PlanoEnum.PRE_PAGO.equals(plano)) {
             return credito;
         } else {
-            return limite;
+            return limite.subtract(limiteConsumido);
         }
     }
 
