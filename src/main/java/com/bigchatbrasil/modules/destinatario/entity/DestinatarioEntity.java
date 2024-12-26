@@ -1,5 +1,6 @@
 package com.bigchatbrasil.modules.destinatario.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +48,6 @@ public class DestinatarioEntity {
     private ClienteEntity cliente;
 
     @OneToMany(mappedBy = "destinatario")
-    private List<ChatDestinatarioEntity> chats;
+    private List<ChatDestinatarioEntity> chats = new ArrayList<>();
 
 }
