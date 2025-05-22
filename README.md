@@ -32,14 +32,14 @@ A API estará disponível em `http://localhost:8080`.
 
 A API possui os seguintes endpoints:
 
-- `POST /cliente`: Para criar um novo cliente.
+- `POST /cliente/`: Para criar um novo cliente.
 - `POST /add-saldo-credito/{id}`: Adiciona saldo de crédito a um cliente caso ele tenha uma conta com plano Pré Pago.
 - `GET /cliente/{id}`: Retorna os detalhes de um cliente específico.
 - `GET /cliente/saldo/{id}`: Retorna o saldo de um cliente específico.
 - `PUT /cliente/`: Atualiza os dados de um cliente existente.
-- `POST /destinatario`: Para criar um novo destinatário.
-- `POST /chat`: Para criar um novo chat.
-- `POST /mensagem`: Para enviar uma mensagem.
+- `POST /destinatario/`: Para criar um novo destinatário.
+- `POST /chat/`: Para criar um novo chat.
+- `POST /mensagem/`: Para enviar uma mensagem.
 
 Os dados são enviados e retornados no formato JSON.
 
