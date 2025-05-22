@@ -18,6 +18,7 @@
     <include file="versions/VER_4_2024.12.26_LEON_criar_tabela_chat.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_5_2024.12.26_LEON_add_cliente_destinatario.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_6_2024.12.26_LEON_add_limite_consumido.xml" relativeToChangelogFile="true"/>
+    <include file="versions/VER_7_2025.05.22_LEON_refatoracao_tabela_cliente.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
 

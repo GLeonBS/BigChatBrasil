@@ -1,14 +1,19 @@
 package com.bigchatbrasil.start;
 
+import com.bigchatbrasil.modules.chat.repository.ChatDestinatarioRepository;
+import com.bigchatbrasil.modules.chat.repository.ChatRepository;
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
+import com.bigchatbrasil.modules.cliente.vo.Conta;
+import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
+import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.bigchatbrasil.modules.chat.repository.ChatDestinatarioRepository;
-import com.bigchatbrasil.modules.chat.repository.ChatRepository;
-import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
-import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
-import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
+import java.math.BigDecimal;
 
 @Component
 public class StartApp implements ApplicationRunner {
@@ -31,21 +36,19 @@ public class StartApp implements ApplicationRunner {
     @Override
     public void run(org.springframework.boot.ApplicationArguments args) throws Exception {
 
-        //        ClienteEntity cliente = new ClienteEntity();
-        //        cliente.setNome("Leon");
-        //        cliente.setCnpj("40089815000103");
-        //        cliente.setCpfResponsavel("19681538021");
-        //        cliente.setEmail("leon@leon.com");
-        //        cliente.setTelefone("44999999999");
-        //        cliente.setNomeEmpresa("Leon LTDA");
-        //
-        //        Conta conta = new Conta();
-        //        conta.setPlano(PlanoEnum.PRE_PAGO);
-        //        conta.setSaldo(new BigDecimal("100.00"));
-        //
-        //        cliente.setConta(conta);
-        //
-        //        ClienteEntity clienteSalvo = clienteRepository.save(cliente);
+        ClienteEntity cliente = new ClienteEntity();
+        cliente.setNome("Leon");
+        cliente.setDocumento("40089815000103");
+        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+
+
+        Conta conta = new Conta();
+        conta.setPlano(PlanoEnum.PRE_PAGO);
+        conta.setSaldo(new BigDecimal("100.00"));
+
+        cliente.setConta(conta);
+
+        ClienteEntity clienteSalvo = clienteRepository.save(cliente);
         //
         //        DestinatarioEntity destinatario = new DestinatarioEntity();
         //        destinatario.setNome("Destinatario 1");

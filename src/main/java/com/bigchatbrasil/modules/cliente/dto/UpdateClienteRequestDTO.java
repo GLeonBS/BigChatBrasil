@@ -1,10 +1,11 @@
 package com.bigchatbrasil.modules.cliente.dto;
 
-import java.util.UUID;
-
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
 import lombok.Builder;
 
+import java.util.UUID;
+
 @Builder
-public record UpdateClienteRequestDTO(UUID id, String nome, String email, String telefone, String cpfResponsavel,
-                                      String cnpj, String nomeEmpresa, ContaRequestDTO conta) {
+public record UpdateClienteRequestDTO(UUID id, String nome, String telefone, String documento,
+                                      TipoDocumento tipoDocumento, ContaRequestDTO conta, boolean ativo) {
 }

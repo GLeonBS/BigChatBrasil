@@ -1,18 +1,18 @@
 package com.bigchatbrasil.modules.cliente.repository;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.math.BigDecimal;
-
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.vo.Conta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
-import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.vo.Conta;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -30,12 +30,10 @@ class ClienteRepositoryTest {
     void findByEmailOrCpfResponsavelOrCnpj() {
 
         ClienteEntity cliente = new ClienteEntity();
-        cliente.setNome("Leon");
-        cliente.setCnpj("40089815000103");
-        cliente.setCpfResponsavel("19681538021");
-        cliente.setEmail("leon@leon.com");
-        cliente.setTelefone("44999999999");
-        cliente.setNomeEmpresa("Leon LTDA");
+        cliente.setNome("Leon LTDA");
+        cliente.setDocumento("40089815000103");
+        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -45,10 +43,9 @@ class ClienteRepositoryTest {
 
         clienteRepository.saveAndFlush(cliente);
 
-        ClienteEntity clienteEntity = clienteRepository.findByEmailOrCpfResponsavelOrCnpj("leon@leon.com",
-                "19681538021", "40089815000103").get();
+        ClienteEntity clienteEntity = clienteRepository.findByDocumento("40089815000103").get();
 
         assertThat(clienteEntity).isNotNull();
-        assertThat(clienteEntity.getNome()).isEqualTo("Leon");
+        assertThat(clienteEntity.getNome()).isEqualTo("Leon LTDA");
     }
 }

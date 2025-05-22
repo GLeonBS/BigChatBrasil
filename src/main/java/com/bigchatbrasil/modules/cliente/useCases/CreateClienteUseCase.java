@@ -1,17 +1,15 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
-import java.math.BigDecimal;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import com.bigchatbrasil.exceptions.UserFoundException;
 import com.bigchatbrasil.modules.cliente.dto.CreateClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
-
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @AllArgsConstructor
@@ -20,9 +18,7 @@ public class CreateClienteUseCase {
     private final ClienteRepository repository;
 
     public ClienteEntity execute(CreateClienteRequestDTO createClienteRequestDTO) {
-        repository.findByEmailOrCpfResponsavelOrCnpj(createClienteRequestDTO.email(),
-                        createClienteRequestDTO.cpfResponsavel(),
-                        createClienteRequestDTO.cnpj())
+        repository.findByDocumento(createClienteRequestDTO.documento())
                 .ifPresent((user) -> {
                     throw new UserFoundException();
                 });
