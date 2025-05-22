@@ -26,7 +26,7 @@ docker-compose up
 2. Certifique-se de ter as extensões do Spring Boot instaladas (como `Spring Boot Tools`).
 3. Execute a aplicação através da opção de build e run disponível na IDE.
 
-A API estará disponível em `http://localhost:8080`.
+A API estará disponível em `http://localhost:8080/api`.
 
 ## Endpoints
 
