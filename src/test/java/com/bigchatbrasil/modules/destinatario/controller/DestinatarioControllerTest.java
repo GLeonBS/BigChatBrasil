@@ -74,7 +74,7 @@ class DestinatarioControllerTest {
                 .clienteId(clienteSalvo.getId())
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/destinatario/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/destinatario")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtils.objectToJson(createDestinatarioRequestDTO))
         ).andExpect(status().isOk()).andDo(System.out::println);

@@ -109,7 +109,7 @@ class MensagemControllerTest {
         CreateMensagemRequestDTO createMensagemRequestDTO = new CreateMensagemRequestDTO("44999999999", false, "Teste",
                 chatSalvo.getId());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/mensagem/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/mensagem")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtils.objectToJson(createMensagemRequestDTO))
         ).andExpect(status().isOk()).andDo(System.out::println);

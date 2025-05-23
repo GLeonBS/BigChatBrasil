@@ -5,7 +5,7 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="add-coluna-limite_consumido" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="cliente" columnName="limite_consumido"/>
             </not>

@@ -27,7 +27,7 @@ class ClienteRepositoryTest {
     }
 
     @Test
-    void findByEmailOrCpfResponsavelOrCnpj() {
+    void findByDocumento() {
 
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");

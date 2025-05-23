@@ -1,9 +1,7 @@
 package com.bigchatbrasil.modules.cliente.vo;
 
-import java.math.BigDecimal;
-
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -27,6 +27,7 @@ public class Conta {
     private BigDecimal limite = BigDecimal.ZERO;
     private BigDecimal limiteConsumido = BigDecimal.ZERO;
 
+    @JsonIgnore
     public BigDecimal getSaldo() {
         if (PlanoEnum.PRE_PAGO.equals(plano)) {
             return credito;

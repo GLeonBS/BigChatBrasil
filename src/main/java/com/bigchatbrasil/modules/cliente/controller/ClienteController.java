@@ -1,27 +1,15 @@
 package com.bigchatbrasil.modules.cliente.controller;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bigchatbrasil.modules.cliente.dto.CreateClienteRequestDTO;
-import com.bigchatbrasil.modules.cliente.dto.UpdateClienteRequestDTO;
+import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
-import com.bigchatbrasil.modules.cliente.useCases.CreateClienteUseCase;
-import com.bigchatbrasil.modules.cliente.useCases.FindClienteUseCase;
-import com.bigchatbrasil.modules.cliente.useCases.ReadSaldoClienteUseCase;
-import com.bigchatbrasil.modules.cliente.useCases.UpdateClienteUseCase;
-import com.bigchatbrasil.modules.cliente.useCases.UpdateCreditoUseCase;
-
+import com.bigchatbrasil.modules.cliente.useCases.*;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/cliente")
@@ -33,15 +21,33 @@ public class ClienteController {
     private ReadSaldoClienteUseCase readSaldoClienteUseCase;
     private UpdateClienteUseCase updateClienteUseCase;
     private UpdateCreditoUseCase updateCreditoUseCase;
+    private FindAllClientsUseCase findAllClientsUseCase;
+    private DeleteClienteUseCase deleteClienteUseCase;
 
-    @PostMapping("/")
-    public ResponseEntity<ClienteEntity> createCliente(@RequestBody CreateClienteRequestDTO cliente) {
+    @PostMapping
+    public ResponseEntity<ClienteEntity> createCliente(@RequestBody ClienteRequestDTO cliente) {
         return ResponseEntity.ok(this.createClienteUseCase.execute(cliente));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteEntity> readCliente(@PathVariable UUID id) {
+    public ResponseEntity<ClienteEntity> findCliente(@PathVariable UUID id) {
         return ResponseEntity.ok(this.findClienteUseCase.execute(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClienteEntity>> findAllClients() {
+        return ResponseEntity.ok(this.findAllClientsUseCase.execute());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteEntity> updateCliente(@PathVariable UUID id, @RequestBody ClienteRequestDTO cliente) {
+        return ResponseEntity.ok(this.updateClienteUseCase.execute(id, cliente));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCliente(@PathVariable UUID id) {
+        deleteClienteUseCase.execute(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/saldo/{id}")
@@ -49,14 +55,9 @@ public class ClienteController {
         return ResponseEntity.ok(this.readSaldoClienteUseCase.execute(id));
     }
 
-    @PutMapping("/")
-    public ResponseEntity<ClienteEntity> updateCliente(@RequestBody UpdateClienteRequestDTO cliente) {
-        return ResponseEntity.ok(this.updateClienteUseCase.execute(cliente));
-    }
-
     @PostMapping("/add-saldo-credito/{id}")
     public ResponseEntity<BigDecimal> addSaldoCreditoCliente(@PathVariable UUID id,
-            @RequestBody BigDecimal saldo) {
+                                                             @RequestBody BigDecimal saldo) {
         return ResponseEntity.ok(this.updateCreditoUseCase.execute(id, saldo));
     }
 }

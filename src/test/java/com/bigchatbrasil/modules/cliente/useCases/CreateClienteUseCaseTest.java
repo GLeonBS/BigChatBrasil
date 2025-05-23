@@ -1,8 +1,8 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
 import com.bigchatbrasil.exceptions.UserFoundException;
+import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
-import com.bigchatbrasil.modules.cliente.dto.CreateClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
@@ -40,7 +40,7 @@ class CreateClienteUseCaseTest {
                 .limite(new BigDecimal("100.00"))
                 .build();
 
-        CreateClienteRequestDTO createClienteRequestDTO = CreateClienteRequestDTO.builder()
+        ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("12345678901234")
                 .tipoDocumento(TipoDocumento.CNPJ)
@@ -50,16 +50,16 @@ class CreateClienteUseCaseTest {
         Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
                 BigDecimal.ZERO);
 
-        ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), createClienteRequestDTO.nome(),
-                createClienteRequestDTO.documento(),
-                createClienteRequestDTO.tipoDocumento(),
+        ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(),
+                clienteRequestDTO.documento(),
+                clienteRequestDTO.tipoDocumento(),
                 conta, true);
 
         when(repository.findByDocumento(any())).thenReturn(Optional.empty());
 
         when(repository.save(any(ClienteEntity.class))).thenReturn(cliente);
 
-        Assertions.assertDoesNotThrow(() -> createClienteUseCase.execute(createClienteRequestDTO));
+        Assertions.assertDoesNotThrow(() -> createClienteUseCase.execute(clienteRequestDTO));
     }
 
     @Test
@@ -70,7 +70,7 @@ class CreateClienteUseCaseTest {
                 .limite(new BigDecimal("100.00"))
                 .build();
 
-        CreateClienteRequestDTO createClienteRequestDTO = CreateClienteRequestDTO.builder()
+        ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("12345678901234")
                 .tipoDocumento(TipoDocumento.CNPJ)
@@ -80,14 +80,14 @@ class CreateClienteUseCaseTest {
         Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
                 BigDecimal.ZERO);
 
-        ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), createClienteRequestDTO.nome(),
-                createClienteRequestDTO.documento(),
-                createClienteRequestDTO.tipoDocumento(),
+        ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(),
+                clienteRequestDTO.documento(),
+                clienteRequestDTO.tipoDocumento(),
                 conta, true);
 
         when(repository.findByDocumento(any())).thenReturn(Optional.of(cliente));
 
-        assertThatThrownBy(() -> createClienteUseCase.execute(createClienteRequestDTO))
+        assertThatThrownBy(() -> createClienteUseCase.execute(clienteRequestDTO))
                 .isInstanceOf(UserFoundException.class);
     }
 

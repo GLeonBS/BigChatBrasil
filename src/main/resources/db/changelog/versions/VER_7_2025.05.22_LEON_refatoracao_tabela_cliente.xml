@@ -5,7 +5,7 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="removendo-coluna-email-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <columnExists tableName="cliente" columnName="email"/>
         </preConditions>
         <dropColumn
@@ -15,7 +15,7 @@
     </changeSet>
 
     <changeSet id="removendo-coluna-nome_empresa-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <columnExists tableName="cliente" columnName="nome_empresa"/>
         </preConditions>
         <dropColumn
@@ -25,7 +25,7 @@
     </changeSet>
 
     <changeSet id="removendo-coluna-cpf-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <columnExists tableName="cliente" columnName="cpf"/>
         </preConditions>
         <dropColumn
@@ -35,7 +35,7 @@
     </changeSet>
 
     <changeSet id="removendo-coluna-cnpj-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <columnExists tableName="cliente" columnName="cnpj"/>
         </preConditions>
         <dropColumn
@@ -45,7 +45,7 @@
     </changeSet>
 
     <changeSet id="removendo-coluna-telefone-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <columnExists tableName="cliente" columnName="telefone"/>
         </preConditions>
         <dropColumn
@@ -55,7 +55,7 @@
     </changeSet>
 
     <changeSet id="add-coluna-ativo-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="cliente" columnName="ativo"/>
             </not>
@@ -66,7 +66,7 @@
     </changeSet>
 
     <changeSet id="add-coluna-documento-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="cliente" columnName="documento"/>
             </not>
@@ -77,7 +77,7 @@
     </changeSet>
 
     <changeSet id="add-coluna-tipo_documento-cliente" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="cliente" columnName="tipo_documento"/>
             </not>

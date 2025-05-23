@@ -92,7 +92,7 @@ class ChatControllerTest {
                 .destinatarios(Collections.singletonList(destinatarioSalvo.getId()))
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/chat/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/chat")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtils.objectToJson(createChatRequestDTO))
         ).andExpect(status().isOk()).andDo(System.out::println);
