@@ -1,9 +1,13 @@
 package com.bigchatbrasil.modules.destinatario.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.math.BigDecimal;
-
+import com.bigchatbrasil.config.TestUtils;
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
+import com.bigchatbrasil.modules.cliente.vo.Conta;
+import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
+import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +20,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.bigchatbrasil.config.TestUtils;
-import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
-import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
-import com.bigchatbrasil.modules.cliente.vo.Conta;
-import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
-import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
+import java.math.BigDecimal;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -56,11 +56,9 @@ class DestinatarioControllerTest {
     void createDestinatario() throws Exception {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon");
-        cliente.setCnpj("40089815000103");
-        cliente.setCpfResponsavel("19681538021");
-        cliente.setEmail("leon@leon.com");
-        cliente.setTelefone("44999999999");
-        cliente.setNomeEmpresa("Leon LTDA");
+        cliente.setDocumento("40089815000103");
+        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("11999999999");
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -76,7 +74,7 @@ class DestinatarioControllerTest {
                 .clienteId(clienteSalvo.getId())
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/destinatario/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/destinatario")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtils.objectToJson(createDestinatarioRequestDTO))
         ).andExpect(status().isOk()).andDo(System.out::println);

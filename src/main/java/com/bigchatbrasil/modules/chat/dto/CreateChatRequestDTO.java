@@ -1,10 +1,9 @@
 package com.bigchatbrasil.modules.chat.dto;
 
-import java.util.List;
-import java.util.UUID;
-
 import lombok.Builder;
 
+import java.util.UUID;
+
 @Builder
-public record CreateChatRequestDTO(UUID remetente, List<UUID> destinatarios) {
+public record CreateChatRequestDTO(UUID remetente, UUID destinatario) {
 }

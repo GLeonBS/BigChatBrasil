@@ -47,7 +47,7 @@
     </changeSet>
 
     <changeSet id="add-coluna-chat-mensagem" author="gabriel.souza">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="mensagem" columnName="chat_id"/>
             </not>

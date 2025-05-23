@@ -1,10 +1,11 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
-import java.util.UUID;
-
+import com.bigchatbrasil.config.Fixtures;
+import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
+import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,12 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bigchatbrasil.config.Fixtures;
-import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
-import com.bigchatbrasil.modules.cliente.dto.UpdateClienteRequestDTO;
-import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
-import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
+import java.math.BigDecimal;
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateClienteUseCaseTest {
@@ -39,8 +38,7 @@ class UpdateClienteUseCaseTest {
                 .limite(new BigDecimal("200.00"))
                 .build();
 
-        UpdateClienteRequestDTO updateClienteRequestDTO = UpdateClienteRequestDTO.builder()
-                .id(id)
+        ClienteRequestDTO updateClienteRequestDTO = ClienteRequestDTO.builder()
                 .conta(contaRequestDTO)
                 .build();
 
@@ -48,7 +46,7 @@ class UpdateClienteUseCaseTest {
         when(findClienteUseCase.execute(cliente.getId())).thenReturn(cliente);
 
         Assertions.assertDoesNotThrow(() -> {
-            updateClienteUseCase.execute(updateClienteRequestDTO);
+            updateClienteUseCase.execute(id, updateClienteRequestDTO);
         });
     }
 

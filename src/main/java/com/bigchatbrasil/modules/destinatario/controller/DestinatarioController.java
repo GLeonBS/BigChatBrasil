@@ -1,16 +1,14 @@
 package com.bigchatbrasil.modules.destinatario.controller;
 
+import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
+import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
+import com.bigchatbrasil.modules.destinatario.useCases.CreateDestinatarioUseCase;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
-import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
-import com.bigchatbrasil.modules.destinatario.useCases.CreateDestinatarioUseCase;
-
-import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/destinatario")
@@ -19,7 +17,7 @@ public class DestinatarioController {
 
     private CreateDestinatarioUseCase createDestinatarioUseCase;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<DestinatarioEntity> createDestinatario(
             @RequestBody CreateDestinatarioRequestDTO destinatario) {
         return ResponseEntity.ok(this.createDestinatarioUseCase.execute(destinatario));

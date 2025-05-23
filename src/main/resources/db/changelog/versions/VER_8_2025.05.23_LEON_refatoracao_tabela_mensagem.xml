@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add-coluna-cliente-mensagem" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="mensagem" columnName="cliente_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="mensagem">
+            <column name="cliente_id" type="${id}">
+                <constraints nullable="false" foreignKeyName="fk_cliente_mensagem" references="cliente(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-destinatario-mensagem" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="mensagem" columnName="destinatario_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="mensagem">
+            <column name="destinatario_id" type="${id}">
+                <constraints nullable="false" foreignKeyName="fk_destinatario_mensagem" references="destinatario(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-prioridade-mensagem" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="mensagem" columnName="prioridade"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="mensagem">
+            <column name="prioridade" type="${text}"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-status-mensagem" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="mensagem" columnName="status"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="mensagem">
+            <column name="status" type="${text}"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-custo-mensagem" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="mensagem" columnName="custo"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="mensagem">
+            <column name="custo" type="${numeric}"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

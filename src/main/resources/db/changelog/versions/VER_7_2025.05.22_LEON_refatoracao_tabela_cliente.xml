@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="removendo-coluna-email-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="cliente" columnName="email"/>
+        </preConditions>
+        <dropColumn
+                tableName="cliente"
+                columnName="email">
+        </dropColumn>
+    </changeSet>
+
+    <changeSet id="removendo-coluna-nome_empresa-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="cliente" columnName="nome_empresa"/>
+        </preConditions>
+        <dropColumn
+                tableName="cliente"
+                columnName="nome_empresa">
+        </dropColumn>
+    </changeSet>
+
+    <changeSet id="removendo-coluna-cpf-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="cliente" columnName="cpf"/>
+        </preConditions>
+        <dropColumn
+                tableName="cliente"
+                columnName="cpf">
+        </dropColumn>
+    </changeSet>
+
+    <changeSet id="removendo-coluna-cnpj-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="cliente" columnName="cnpj"/>
+        </preConditions>
+        <dropColumn
+                tableName="cliente"
+                columnName="cnpj">
+        </dropColumn>
+    </changeSet>
+
+    <changeSet id="removendo-coluna-telefone-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="cliente" columnName="telefone"/>
+        </preConditions>
+        <dropColumn
+                tableName="cliente"
+                columnName="telefone">
+        </dropColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-ativo-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="cliente" columnName="ativo"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="cliente">
+            <column name="ativo" type="${boolean}"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-documento-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="cliente" columnName="documento"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="cliente">
+            <column name="documento" type="VARCHAR(14)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-tipo_documento-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="cliente" columnName="tipo_documento"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="cliente">
+            <column name="tipo_documento" type="${text}"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

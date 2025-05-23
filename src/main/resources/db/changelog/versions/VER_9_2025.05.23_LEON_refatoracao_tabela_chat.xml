@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="removendo-tabela-chat-destinatario" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="chat_destinatario"/>
+        </preConditions>
+
+        <dropTable tableName="chat_destinatario" cascadeConstraints="true"/>
+    </changeSet>
+
+    <changeSet id="add-coluna-destinatario-chat" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="chat" columnName="destinatario_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="chat">
+            <column name="destinatario_id" type="${id}">
+                <constraints nullable="false" foreignKeyName="fk_destinatario_mensagem" references="destinatario(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-numero_telefone-cliente" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="cliente" columnName="numero_telefone"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="cliente">
+            <column name="numero_telefone" type="VARCHAR(11)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="removendo-coluna-telefone-mensagem" author="gabriel.souza">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="mensagem" columnName="numero_telefone"/>
+        </preConditions>
+        <dropColumn
+                tableName="mensagem"
+                columnName="numero_telefone">
+        </dropColumn>
+    </changeSet>
+
+
+</databaseChangeLog>
