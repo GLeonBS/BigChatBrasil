@@ -45,6 +45,7 @@ class CreateClienteUseCaseTest {
                 .documento("12345678901234")
                 .tipoDocumento(TipoDocumento.CNPJ)
                 .conta(contaRequestDTO)
+                .numeroTelefone("44999999999")
                 .build();
 
         Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
@@ -53,7 +54,7 @@ class CreateClienteUseCaseTest {
         ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(),
                 clienteRequestDTO.documento(),
                 clienteRequestDTO.tipoDocumento(),
-                conta, true);
+                conta, true, clienteRequestDTO.numeroTelefone());
 
         when(repository.findByDocumento(any())).thenReturn(Optional.empty());
 
@@ -75,6 +76,7 @@ class CreateClienteUseCaseTest {
                 .documento("12345678901234")
                 .tipoDocumento(TipoDocumento.CNPJ)
                 .conta(contaRequestDTO)
+                .numeroTelefone("44999999999")
                 .build();
 
         Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
@@ -83,7 +85,7 @@ class CreateClienteUseCaseTest {
         ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(),
                 clienteRequestDTO.documento(),
                 clienteRequestDTO.tipoDocumento(),
-                conta, true);
+                conta, true, clienteRequestDTO.numeroTelefone());
 
         when(repository.findByDocumento(any())).thenReturn(Optional.of(cliente));
 

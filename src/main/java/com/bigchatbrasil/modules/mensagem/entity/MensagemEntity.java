@@ -7,7 +7,6 @@ import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -62,11 +61,6 @@ public class MensagemEntity {
 
     @NotNull
     private BigDecimal custo = BigDecimal.ZERO;
-
-    @NotNull
-    @Column(length = 11, name = "numero_telefone")
-    @Size(min = 11, max = 11, message = "O campo telefone deve conter 11 caracteres")
-    private String numeroTelefone;
 
     @NotNull
     private boolean whatsapp;

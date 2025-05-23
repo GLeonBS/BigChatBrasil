@@ -58,7 +58,7 @@ class DestinatarioControllerTest {
         cliente.setNome("Leon");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
-
+        cliente.setNumeroTelefone("11999999999");
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);

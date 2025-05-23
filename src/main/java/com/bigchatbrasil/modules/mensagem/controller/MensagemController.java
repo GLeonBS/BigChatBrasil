@@ -1,8 +1,7 @@
 package com.bigchatbrasil.modules.mensagem.controller;
 
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
-import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.useCases.EnviarMensagemUseCase;
+import com.bigchatbrasil.modules.mensagem.useCases.EnviarMensagensUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,16 +9,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/mensagem")
 @AllArgsConstructor
 public class MensagemController {
 
-    private EnviarMensagemUseCase enviarMensagemUseCase;
+    private EnviarMensagensUseCase enviarMensagensUseCase;
 
     @PostMapping
-    public ResponseEntity<MensagemEntity> enviarMensagem(@RequestBody CreateMensagemRequestDTO mensagem) {
-        return ResponseEntity.ok(this.enviarMensagemUseCase.execute(mensagem));
+    public ResponseEntity<Void> enviarMensagens(@RequestBody List<CreateMensagemRequestDTO> mensagem) {
+        this.enviarMensagensUseCase.execute(mensagem);
+        return ResponseEntity.noContent().build();
     }
 
 }

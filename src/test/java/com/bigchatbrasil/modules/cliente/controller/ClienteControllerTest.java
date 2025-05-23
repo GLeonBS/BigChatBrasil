@@ -63,6 +63,7 @@ class ClienteControllerTest {
                 .documento("19681538021")
                 .tipoDocumento(TipoDocumento.CPF)
                 .conta(contaRequestDTO)
+                .numeroTelefone("44999999999")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
@@ -83,6 +84,7 @@ class ClienteControllerTest {
                 .documento("48783125000161")
                 .tipoDocumento(TipoDocumento.CNPJ)
                 .conta(contaRequestDTO)
+                .numeroTelefone("44999999999")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
@@ -136,7 +138,7 @@ class ClienteControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
-
+        cliente.setNumeroTelefone("44999999999");
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -157,6 +159,7 @@ class ClienteControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("44999999999");
 
 
         Conta conta = new Conta();
@@ -178,6 +181,7 @@ class ClienteControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("44999999999");
 
 
         Conta conta = new Conta();
@@ -211,7 +215,7 @@ class ClienteControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
-
+        cliente.setNumeroTelefone("44999999999");
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -233,6 +237,7 @@ class ClienteControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("44999999999");
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -244,6 +249,7 @@ class ClienteControllerTest {
         cliente2.setNome("Augusto LTDA");
         cliente2.setDocumento("99608096090");
         cliente2.setTipoDocumento(TipoDocumento.CPF);
+        cliente2.setNumeroTelefone("44999999998");
 
         Conta conta2 = new Conta();
         conta2.setPlano(PlanoEnum.POS_PAGO);
@@ -264,6 +270,7 @@ class ClienteControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("44999999999");
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);

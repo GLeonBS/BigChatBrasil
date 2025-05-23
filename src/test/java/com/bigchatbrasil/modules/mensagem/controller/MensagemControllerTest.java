@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -55,34 +57,32 @@ class MensagemControllerTest {
     @AfterEach
     public void tearDown() {
         mensagemRepository.deleteAll();
-        destinatarioRepository.deleteAll();
         chatRepository.deleteAll();
+        destinatarioRepository.deleteAll();
         clienteRepository.deleteAll();
     }
 
     @Test
-    void enviarMensagem() throws Exception {
+    void enviarMensagens() throws Exception {
 
-        ClienteEntity cliente = Fixtures.createCliente(null);
+        ClienteEntity clienteSalvo = clienteRepository.saveAndFlush(Fixtures.createCliente(null));
 
-        ClienteEntity clienteSalvo = clienteRepository.saveAndFlush(cliente);
+        DestinatarioEntity destinatario = destinatarioRepository.saveAndFlush(Fixtures.createDestinatario(null, clienteSalvo));
+        DestinatarioEntity destinatario2 = destinatarioRepository.saveAndFlush(Fixtures.createDestinatario(null, clienteSalvo));
 
-        DestinatarioEntity destinatario = Fixtures.createDestinatario(null, clienteSalvo);
 
-        DestinatarioEntity destinatarioSalvo = destinatarioRepository.saveAndFlush(destinatario);
+        ChatEntity chatSalvo = chatRepository.saveAndFlush(Fixtures.createChat(null, clienteSalvo, destinatario));
+        ChatEntity chatSalvo2 = chatRepository.saveAndFlush(Fixtures.createChat(null, clienteSalvo, destinatario2));
 
-        ChatEntity chat = new ChatEntity();
-        chat.setRemetente(clienteSalvo);
-
-        ChatEntity chatSalvo = chatRepository.saveAndFlush(chat);
-
-        CreateMensagemRequestDTO createMensagemRequestDTO = new CreateMensagemRequestDTO(chatSalvo.getId(), "Teste", Prioridade.NORMAL,
-                "44999999999", false);
+        CreateMensagemRequestDTO createMensagemRequestDTO = new CreateMensagemRequestDTO(chatSalvo.getId(), clienteSalvo.getId(), "Teste", Prioridade.NORMAL,
+                false);
+        CreateMensagemRequestDTO createMensagemRequestDTO2 = new CreateMensagemRequestDTO(chatSalvo2.getId(), clienteSalvo.getId(), "Teste", Prioridade.URGENTE,
+                true);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/mensagem")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtils.objectToJson(createMensagemRequestDTO))
-        ).andExpect(status().isOk()).andDo(System.out::println);
+                .content(TestUtils.objectToJson(List.of(createMensagemRequestDTO, createMensagemRequestDTO2)))
+        ).andExpect(status().isNoContent()).andDo(System.out::println);
     }
 
 }

@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,9 +52,8 @@ class ChatControllerTest {
 
     @AfterEach
     public void tearDown() {
-        chatDestinatarioRepository.deleteAll();
-        destinatarioRepository.deleteAll();
         chatRepository.deleteAll();
+        destinatarioRepository.deleteAll();
         clienteRepository.deleteAll();
     }
 
@@ -65,6 +63,7 @@ class ChatControllerTest {
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("11999999999");
 
 
         Conta conta = new Conta();
@@ -85,7 +84,7 @@ class ChatControllerTest {
         CreateChatRequestDTO createChatRequestDTO = CreateChatRequestDTO
                 .builder()
                 .remetente(clienteSalvo.getId())
-                .destinatarios(Collections.singletonList(destinatarioSalvo.getId()))
+                .destinatario(destinatarioSalvo.getId())
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/chat")

@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @Builder
 public record ClienteRequestDTO(UUID id, String nome, String documento, TipoDocumento tipoDocumento,
-                                ContaRequestDTO conta, boolean ativo) {
+                                ContaRequestDTO conta, boolean ativo, String numeroTelefone) {
 }

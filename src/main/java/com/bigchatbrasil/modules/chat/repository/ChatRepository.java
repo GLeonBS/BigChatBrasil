@@ -1,10 +1,12 @@
 package com.bigchatbrasil.modules.chat.repository;
 
-import java.util.UUID;
-
+import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bigchatbrasil.modules.chat.entity.ChatEntity;
+import java.util.List;
+import java.util.UUID;
 
 public interface ChatRepository extends JpaRepository<ChatEntity, UUID> {
+
+    List<ChatEntity> findAllByIdIn(List<UUID> ids);
 }

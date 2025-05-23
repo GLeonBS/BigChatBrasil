@@ -6,6 +6,6 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record CreateMensagemRequestDTO(UUID chatId, String texto, Prioridade prioridade,
-                                       String numeroTelefone, boolean whatsapp) {
+public record CreateMensagemRequestDTO(UUID chatId, UUID clienteId, String texto, Prioridade prioridade,
+                                       boolean whatsapp) {
 }
