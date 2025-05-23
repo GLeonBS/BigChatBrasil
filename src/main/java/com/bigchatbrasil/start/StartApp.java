@@ -1,6 +1,5 @@
 package com.bigchatbrasil.start;
 
-import com.bigchatbrasil.modules.chat.repository.ChatDestinatarioRepository;
 import com.bigchatbrasil.modules.chat.repository.ChatRepository;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
@@ -14,9 +13,6 @@ public class StartApp implements ApplicationRunner {
 
     @Autowired
     private ChatRepository repository;
-
-    @Autowired
-    private ChatDestinatarioRepository chatDestinatarioRepository;
 
     @Autowired
     private ClienteRepository clienteRepository;

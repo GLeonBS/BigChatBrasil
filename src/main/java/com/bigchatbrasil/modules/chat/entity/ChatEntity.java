@@ -1,26 +1,19 @@
 package com.bigchatbrasil.modules.chat.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "chat")
@@ -39,9 +32,10 @@ public class ChatEntity {
     @JoinColumn(name = "remetente_id")
     private ClienteEntity remetente;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "chat")
-    private List<ChatDestinatarioEntity> destinatarios = new ArrayList<>();
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "destinatario_id")
+    private DestinatarioEntity destinatario;
 
     @JsonIgnore
     @OneToMany(mappedBy = "chat")

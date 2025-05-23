@@ -2,7 +2,6 @@ package com.bigchatbrasil.modules.chat.controller;
 
 import com.bigchatbrasil.config.TestUtils;
 import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
-import com.bigchatbrasil.modules.chat.repository.ChatDestinatarioRepository;
 import com.bigchatbrasil.modules.chat.repository.ChatRepository;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
@@ -44,9 +43,6 @@ class ChatControllerTest {
 
     @Autowired
     private ChatRepository chatRepository;
-
-    @Autowired
-    private ChatDestinatarioRepository chatDestinatarioRepository;
 
     @BeforeEach
     public void setUp() {

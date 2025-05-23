@@ -1,9 +1,11 @@
 package com.bigchatbrasil.modules.mensagem.dto;
 
-import java.util.UUID;
-
+import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
 import lombok.Builder;
 
+import java.util.UUID;
+
 @Builder
-public record CreateMensagemRequestDTO(String numeroTelefone, boolean whatsapp, String texto, UUID chatId) {
+public record CreateMensagemRequestDTO(UUID chatId, String texto, Prioridade prioridade,
+                                       String numeroTelefone, boolean whatsapp) {
 }
