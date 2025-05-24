@@ -45,6 +45,7 @@ public class CreateClienteUseCase {
         ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
         ContaRequestDTO contaRequestDTO = ContaRequestDTO.builder()
                 .plano(contaCriada.getPlano())
+                .credito(contaCriada.getCredito())
                 .limite(contaCriada.getLimite())
                 .limiteConsumido(contaCriada.getLimiteConsumido())
                 .build();

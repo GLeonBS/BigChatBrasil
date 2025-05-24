@@ -36,6 +36,7 @@ public class UpdateClienteUseCase {
         ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
         ContaRequestDTO contaRequestDTO = ContaRequestDTO.builder()
                 .plano(contaSalva.getPlano())
+                .credito(contaSalva.getCredito())
                 .limite(contaSalva.getLimite())
                 .limiteConsumido(contaSalva.getLimiteConsumido())
                 .build();

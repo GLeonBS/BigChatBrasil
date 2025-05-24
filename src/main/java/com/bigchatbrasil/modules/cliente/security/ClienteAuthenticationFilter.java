@@ -30,8 +30,9 @@ public class ClienteAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (checkIfEndpointIsNotPublic(request) && (request.getRequestURI()
-                .startsWith("/api/cliente") || request.getRequestURI().startsWith("/cliente"))) {
+        String requestURI = request.getRequestURI().replace("/api", "");
+
+        if (checkIfEndpointIsNotPublic(requestURI) && checkIfIsInClientePermissions(requestURI)) {
             String token = recoveryToken(request);
             if (token != null) {
                 String subject = clienteTokenUseCase.getSubjectFromToken(token);
@@ -57,8 +58,12 @@ public class ClienteAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
-        String requestURI = request.getRequestURI().replace("/api", "");
+    private boolean checkIfIsInClientePermissions(String requestURI) {
+        return Arrays.stream(SecurityConfig.CLIENTE_PERMISSIONS)
+                .anyMatch(requestURI::startsWith);
+    }
+
+    private boolean checkIfEndpointIsNotPublic(String requestURI) {
         return !Arrays.asList(SecurityConfig.PERMIT_ALL_LIST).contains(requestURI);
     }
 }

@@ -26,11 +26,12 @@ public class SecurityConfig {
             "/cliente"
     };
 
-    private static final String[] CLIENTE_PERMISSIONS = {
+    public static final String[] CLIENTE_PERMISSIONS = {
             "/cliente/**",
             "/destinatario/**",
             "/chat/**",
             "/mensagem/**",
+            "/cliente",
             "/destinatario",
             "/chat",
             "/mensagem"
