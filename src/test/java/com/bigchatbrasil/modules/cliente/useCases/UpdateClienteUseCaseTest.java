@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +45,7 @@ class UpdateClienteUseCaseTest {
 
         ClienteEntity cliente = Fixtures.createCliente(id);
         when(findClienteUseCase.execute(cliente.getId())).thenReturn(cliente);
+        when(repository.save(any())).thenReturn(cliente);
 
         Assertions.assertDoesNotThrow(() -> {
             updateClienteUseCase.execute(id, updateClienteRequestDTO);

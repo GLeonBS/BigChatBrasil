@@ -1,6 +1,7 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
 import com.bigchatbrasil.config.Fixtures;
+import com.bigchatbrasil.modules.cliente.dto.ClienteResponseDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import org.junit.jupiter.api.Assertions;
@@ -34,9 +35,9 @@ class FindAllClientsUseCaseTest {
         when(repository.findAll()).thenReturn(List.of(cliente, cliente2));
 
         Assertions.assertDoesNotThrow(() -> {
-            List<ClienteEntity> clientes = findClienteUseCase.execute();
+            List<ClienteResponseDTO> clientes = findClienteUseCase.execute();
             Assertions.assertEquals(2, clientes.size());
-            assertThat(clientes).extracting(ClienteEntity::getNome).containsAll(List.of(cliente.getNome(), cliente2.getNome()));
+            assertThat(clientes).extracting(ClienteResponseDTO::getNome).containsAll(List.of(cliente.getNome(), cliente2.getNome()));
         });
     }
 

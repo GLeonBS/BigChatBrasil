@@ -5,3 +5,7 @@ spring:
   liquibase:
     contexts: dev
 
+security:
+  token:
+    secret:
+      cliente: "cliente_secret_dev"

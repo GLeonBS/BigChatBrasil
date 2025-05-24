@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add-coluna-senha-cliente" author="gabriel.souza">
+        <preConditions>
+            <not>
+                <columnExists tableName="cliente" columnName="senha"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="cliente">
+            <column name="senha" type="${text}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add-coluna-role-cliente" author="gabriel.souza">
+        <preConditions>
+            <not>
+                <columnExists tableName="cliente" columnName="role"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="cliente">
+            <column name="role" type="${text}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,9 +1,11 @@
 package com.bigchatbrasil.modules.cliente.entity;
 
 import com.bigchatbrasil.modules.cliente.annotations.DocumentoValido;
+import com.bigchatbrasil.modules.cliente.enums.Role;
 import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -46,5 +48,12 @@ public class ClienteEntity {
     @Column(length = 11, name = "numero_telefone")
     @Size(min = 11, max = 11, message = "O campo telefone deve conter 11 caracteres")
     private String numeroTelefone;
+
+    @NotBlank(message = "Insira uma senha")
+    private String senha;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }

@@ -21,6 +21,7 @@
     <include file="versions/VER_7_2025.05.22_LEON_refatoracao_tabela_cliente.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_8_2025.05.23_LEON_refatoracao_tabela_mensagem.xml" relativeToChangelogFile="true"/>
     <include file="versions/VER_9_2025.05.23_LEON_refatoracao_tabela_chat.xml" relativeToChangelogFile="true"/>
+    <include file="versions/VER_10_2025.05.24_LEON_adicionando_autenticacao.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
 
