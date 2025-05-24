@@ -85,6 +85,6 @@ class EnviarMensagensUseCaseTest {
         when(checkSaldoPrePagoUseCase.getPlano()).thenReturn(PlanoEnum.PRE_PAGO);
         when(findClienteUseCase.execute(clientId)).thenReturn(cliente);
 
-        Assertions.assertDoesNotThrow(() -> enviarMensagensUseCase.execute(List.of(mensagem)));
+        Assertions.assertDoesNotThrow(() -> enviarMensagensUseCase.execute(List.of(mensagem), clientId));
     }
 }

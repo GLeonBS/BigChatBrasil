@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class EnviarMensagensUseCase {
 
     private final FindClienteUseCase findClienteUseCase;
 
-    public void execute(List<CreateMensagemRequestDTO> mensagens) {
+    public void execute(List<CreateMensagemRequestDTO> mensagens, UUID clienteId) {
 
         List<CreateMensagemRequestDTO> mensagensPrioritarias = mensagens.stream()
                 .filter(mensagem -> Prioridade.URGENTE.equals(mensagem.prioridade()))
@@ -42,7 +43,7 @@ public class EnviarMensagensUseCase {
                 .filter(mensagem -> Prioridade.NORMAL.equals(mensagem.prioridade()))
                 .toList();
 
-        ClienteEntity cliente = findClienteUseCase.execute(mensagens.stream().findFirst().get().clienteId());
+        ClienteEntity cliente = findClienteUseCase.execute(clienteId);
         List<ChatEntity> chats = chatRepository.findAllByIdIn(mensagens.stream().map(CreateMensagemRequestDTO::chatId).toList());
 
         CheckSaldo checkSaldo = estrategiasSaldos.stream()

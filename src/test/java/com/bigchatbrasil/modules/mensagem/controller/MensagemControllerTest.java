@@ -80,6 +80,7 @@ class MensagemControllerTest {
                 true);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/mensagem")
+                .requestAttr("cliente_id", clienteSalvo.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtils.objectToJson(List.of(createMensagemRequestDTO, createMensagemRequestDTO2)))
         ).andExpect(status().isNoContent()).andDo(System.out::println);

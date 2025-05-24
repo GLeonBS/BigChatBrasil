@@ -38,6 +38,8 @@ public class ClienteAuthenticationFilter extends OncePerRequestFilter {
                 String subject = clienteTokenUseCase.getSubjectFromToken(token);
                 ClienteEntity cliente = clienteRepository.findByDocumento(subject).get();
                 UserDetailsImpl userDetails = new UserDetailsImpl(cliente);
+                request.setAttribute("cliente_id", cliente.getId());
+                request.setAttribute("cliente_documento", cliente.getDocumento());
 
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(), null, userDetails.getAuthorities());
