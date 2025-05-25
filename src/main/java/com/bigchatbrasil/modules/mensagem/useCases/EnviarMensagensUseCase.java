@@ -33,6 +33,8 @@ public class EnviarMensagensUseCase {
 
     private final FindClienteUseCase findClienteUseCase;
 
+//    private final Queue<MensagemEntity> filaMensagens = new ConcurrentLinkedQueue<>();
+
     public void execute(List<CreateMensagemRequestDTO> mensagens, UUID clienteId) {
 
         List<CreateMensagemRequestDTO> mensagensPrioritarias = mensagens.stream()
