@@ -1,82 +1,132 @@
 # API - BigChatBrasil
 
-Esta é uma API RESTful de CRUD para gerenciar informações de envio de mensagens. Foi desenvolvida usando o framework
-Spring Boot, PostgreSQL como banco de dados e Java 17 como linguagem.
+Esta é uma API RESTful para gerenciamento de envio de mensagens, desenvolvida com **Spring Boot**, **PostgreSQL** e *
+*Java 17**.
 
-## Configuração
+---
 
-Certifique-se de ter a [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) instalada.
+## ✅ Tecnologias
 
-### Banco de Dados
+- Java 17
+- Spring Boot
+- PostgreSQL
+- Liquibase
+- Docker
 
-1. O banco é inicializado via docker então você pode instalar o docker e rodar o comando abaixo para subir o banco de
-   dados.
+---
 
+## 🚀 Como rodar com Docker Compose
+
+Certifique-se de ter o [Docker](https://www.docker.com/products/docker-desktop) e
+o [Docker Compose](https://docs.docker.com/compose/) instalados.
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/seu-usuario/bigchatbrasil.git
+cd bigchatbrasil
 ```
+
+### 2. Rode a aplicação
+
+```bash
 docker-compose up
 ```
 
-2. Caso prefira, você pode instalar o PostgreSQL localmente e criar um banco de dados chamado `big_chat_db`.
-3. Altere as configurações de banco de dados no arquivo `application.yml` para corresponder às suas credenciais, o
-   padrão é postgres/postgres.
+### 3. Acesse a API
 
-## Executando a aplicação
+- API: `http://localhost:8080/api`
+- Swagger UI: `http://localhost:8080/api/swagger-ui/index.html#/`
 
-1. Abra o projeto.
-2. Certifique-se de ter as extensões do Spring Boot instaladas (como `Spring Boot Tools`).
-3. Execute a aplicação através da opção de build e run disponível na IDE.
+> O banco de dados estará disponível internamente para a aplicação via hostname `postgres`.
 
-A API estará disponível em `http://localhost:8080/api`.
+---
 
-## Endpoints
+## 🛠️ Configuração manual (sem Docker)
 
-A API possui os seguintes endpoints:
+> Use apenas se preferir rodar localmente sem Docker.
 
-- `POST /cliente/`: Para criar um novo cliente.
-- `POST /add-saldo-credito/{id}`: Adiciona saldo de crédito a um cliente caso ele tenha uma conta com plano Pré Pago.
-- `GET /cliente/{id}`: Retorna os detalhes de um cliente específico.
-- `GET /cliente/saldo/{id}`: Retorna o saldo de um cliente específico.
-- `PUT /cliente/`: Atualiza os dados de um cliente existente.
-- `POST /destinatario/`: Para criar um novo destinatário.
-- `POST /chat/`: Para criar um novo chat.
-- `POST /mensagem/`: Para enviar uma mensagem.
+- Instale a [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- Suba um banco PostgreSQL com:
+    - `user`: `postgres`
+    - `password`: `postgres`
+    - `database`: `big_chat_db`
+- Atualize o `application.yml` ou `application.properties` com suas configurações
+- Rode a aplicação:
 
-Os dados são enviados e retornados no formato JSON.
+```bash
+./mvnw spring-boot:run
+```
 
-### Exemplo de solicitação para a rota `POST /cliente`:
+---
+
+## 📚 Endpoints principais
+
+A API possui os seguintes endpoints RESTful (prefixo `/api`):
+
+- `POST /cliente`: Cria um novo cliente.
+- `GET /cliente/{id}`: Retorna os detalhes de um cliente.
+- `GET /cliente`: Retorna todos os clientes cadastrados.
+- `PUT /cliente/{id}`: Atualiza um cliente.
+- `DELETE /cliente/{id}`: Deleta um cliente.
+- `POST /cliente/auth`: Realiza o login de um Cliente.
+- `POST /add-saldo-credito/{id}`: Adiciona saldo de crédito a um cliente com plano Pré-Pago.
+- `GET /cliente/saldo/{id}`: Retorna o saldo atual do cliente.
+- `POST /destinatario`: Cria um novo destinatário.
+- `POST /chat`: Cria um novo chat.
+- `GET /chat/{id}`: Retorna os detalhes de um chat.
+- `GET /chat`: Retorna todos os chats cadastrados para o cliente logado.
+- `GET /chat/mensagens`: Retorna todas as mensagens de um chat.
+- `POST /mensagem`: Envia uma nova mensagem.
+- `GET /mensagem/{id}`: Retorna os detalhes de uma mensagem.
+- `GET /mensagem/{id}/status`: Retorna o status de uma mensagem.
+
+Todos os dados são enviados e recebidos em **JSON**.
+
+---
+
+### 🧪 Exemplo de requisição - `POST /cliente`
 
 ```json
 {
   "nome": "Leon",
-  "email": "Leon@leon.com",
-  "telefone": "44999999999",
-  "cpfResponsavel": "23238766007",
-  "cnpj": "36739551000119",
-  "nomeEmpresa": "Leon LTDA",
+  "documento": "01695216059",
+  "tipoDocumento": "CPF",
   "conta": {
     "plano": "PRE_PAGO",
     "credito": 45.4,
-    "limite": 0.00
-  }
+    "limite": 0,
+    "limiteConsumido": 0
+  },
+  "ativo": true,
+  "numeroTelefone": "44999999999",
+  "senha": "123Senha",
+  "role": "ROLE_CLIENTE"
 }
 ```
 
-### Exemplo de resposta para a rota `GET /cliente/{id}`:
+---
+
+### 📥 Exemplo de resposta - `GET /cliente/{id}`
 
 ```json
 {
-  "id": "85593ad8-05b2-415c-83e1-7847f04dc179",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "nome": "Leon",
-  "email": "Leon@leon.com",
-  "telefone": "44999999999",
-  "cpfResponsavel": "23238766007",
-  "cnpj": "36739551000119",
-  "nomeEmpresa": "Leon LTDA",
+  "documento": "01695216059",
+  "tipoDocumento": "CPF",
   "conta": {
     "plano": "PRE_PAGO",
-    "credito": 45.40,
-    "limite": 0.00,
-    "saldo": 45.40
-  }
+    "credito": 45.4,
+    "limite": 0,
+    "limiteConsumido": 0
+  },
+  "ativo": true
 }
 ```
+
+---
+
+## 📄 Licença
+
+Este projeto é open-source e pode ser usado livremente.
