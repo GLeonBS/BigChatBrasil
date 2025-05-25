@@ -8,6 +8,8 @@ import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 import com.bigchatbrasil.modules.cliente.useCases.CheckSaldoPosPagoUseCase;
 import com.bigchatbrasil.modules.cliente.useCases.CheckSaldoPrePagoUseCase;
 import com.bigchatbrasil.modules.cliente.useCases.FindClienteUseCase;
+import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
+import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
@@ -22,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,6 +50,9 @@ class EnviarMensagensUseCaseTest {
     @Mock
     private FindClienteUseCase findClienteUseCase;
 
+    @Mock
+    private DestinatarioRepository destinatarioRepository;
+
     @InjectMocks
     private EnviarMensagensUseCase enviarMensagensUseCase;
 
@@ -54,13 +60,17 @@ class EnviarMensagensUseCaseTest {
     void setUp() {
         enviarMensagensUseCase = new EnviarMensagensUseCase(repository, chatRepository,
                 List.of(checkSaldoPosPagoUseCase, checkSaldoPrePagoUseCase),
-                List.of(enviarMensagemWhatsappUseCase, enviarMensagemSMSUseCase), findClienteUseCase);
+                List.of(enviarMensagemWhatsappUseCase, enviarMensagemSMSUseCase), findClienteUseCase,
+                destinatarioRepository);
     }
 
     @Test
     void shouldBeCreateMensagem() {
         UUID clientId = UUID.randomUUID();
         ClienteEntity cliente = Fixtures.createCliente(clientId);
+
+        UUID destinatarioId = UUID.randomUUID();
+        DestinatarioEntity destinatario = Fixtures.createDestinatario(destinatarioId, cliente);
 
         UUID chatId = UUID.randomUUID();
         ChatEntity chatEntity = new ChatEntity();
@@ -69,7 +79,7 @@ class EnviarMensagensUseCaseTest {
 
         var mensagem = CreateMensagemRequestDTO.builder()
                 .texto("Olá!")
-                .clienteId(clientId)
+                .destinatarioId(destinatarioId)
                 .whatsapp(false)
                 .chatId(chatId)
                 .build();
@@ -78,13 +88,16 @@ class EnviarMensagensUseCaseTest {
         mensagemEntity.setId(UUID.randomUUID());
         mensagemEntity.setTexto(mensagem.texto());
         mensagemEntity.setWhatsapp(mensagem.whatsapp());
+        mensagemEntity.setChat(chatEntity);
+        mensagemEntity.setCliente(cliente);
+        mensagemEntity.setDestinatario(destinatario);
 
-        List<ChatEntity> chats = List.of(chatEntity);
-
-        when(chatRepository.findAllByIdIn(List.of(chatId))).thenReturn(chats);
         when(checkSaldoPrePagoUseCase.getPlano()).thenReturn(PlanoEnum.PRE_PAGO);
         when(findClienteUseCase.execute(clientId)).thenReturn(cliente);
+        when(chatRepository.findById(chatId)).thenReturn(java.util.Optional.of(chatEntity));
+        when(destinatarioRepository.findById(destinatarioId)).thenReturn(java.util.Optional.of(destinatario));
+        when(repository.save(any())).thenReturn(mensagemEntity);
 
-        Assertions.assertDoesNotThrow(() -> enviarMensagensUseCase.execute(List.of(mensagem), clientId));
+        Assertions.assertDoesNotThrow(() -> enviarMensagensUseCase.execute(mensagem, clientId));
     }
 }

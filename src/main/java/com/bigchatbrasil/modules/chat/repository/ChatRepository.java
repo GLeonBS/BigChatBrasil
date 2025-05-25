@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public interface ChatRepository extends JpaRepository<ChatEntity, UUID> {
 
-    List<ChatEntity> findAllByIdIn(List<UUID> ids);
-
     List<ChatEntity> findAllByRemetenteId(UUID id);
+
 }

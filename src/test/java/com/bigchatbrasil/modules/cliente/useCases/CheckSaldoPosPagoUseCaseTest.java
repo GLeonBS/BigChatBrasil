@@ -5,6 +5,7 @@ import com.bigchatbrasil.exceptions.SaldoInsuficienteException;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
+import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,22 +29,22 @@ class CheckSaldoPosPagoUseCaseTest {
     private ClienteRepository clienteRepository;
 
     @Test
-    void verificaSaldoCliente() {
+    void verificaDescontaSaldoCliente() {
         ClienteEntity cliente = Fixtures.createCliente(UUID.randomUUID());
         cliente.getConta().setPlano(PlanoEnum.POS_PAGO);
         cliente.getConta().setSaldo(BigDecimal.TEN);
 
-        Assertions.assertDoesNotThrow(() -> checkSaldoPosPagoUseCase.verificaSaldoCliente(cliente, 1, 0));
+        Assertions.assertDoesNotThrow(() -> checkSaldoPosPagoUseCase.verificaDescontaSaldoCliente(cliente, Prioridade.NORMAL));
     }
 
     @Test
-    void verificaSaldoClienteInvalido() {
+    void verificaDescontaSaldoClienteInvalido() {
         ClienteEntity cliente = Fixtures.createCliente(UUID.randomUUID());
         cliente.getConta().setPlano(PlanoEnum.POS_PAGO);
         cliente.getConta().setLimite(BigDecimal.TEN);
         cliente.getConta().setLimiteConsumido(BigDecimal.TEN);
 
-        assertThatThrownBy(() -> checkSaldoPosPagoUseCase.verificaSaldoCliente(cliente, 1, 0))
+        assertThatThrownBy(() -> checkSaldoPosPagoUseCase.verificaDescontaSaldoCliente(cliente, Prioridade.URGENTE))
                 .isInstanceOf(SaldoInsuficienteException.class)
                 .hasMessage("Limite insuficiente: 0");
     }
