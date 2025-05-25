@@ -2,7 +2,7 @@ spring:
   application:
     name: big-chat-brasil
   datasource:
-    url: jdbc:postgresql://localhost:5432/big_chat_db
+    url: jdbc:postgresql://postgres:5432/big_chat_db
     username: postgres
     password: postgres
   jpa:
