@@ -5,6 +5,7 @@ import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.chat.useCases.CreateChatUseCase;
 import com.bigchatbrasil.modules.chat.useCases.FindAllChatsUseCase;
+import com.bigchatbrasil.modules.chat.useCases.FindOneChatUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class ChatController {
 
     private CreateChatUseCase createChatUseCase;
     private FindAllChatsUseCase findAllChatsUseCase;
+    private FindOneChatUseCase findOneChatUseCase;
 
     @PostMapping
     public ResponseEntity<ChatEntity> createDestinatario(@RequestBody CreateChatRequestDTO chat) {
@@ -30,6 +32,11 @@ public class ChatController {
     public ResponseEntity<List<ChatResponseDTO>> getChats(HttpServletRequest request) {
         Object clienteId = request.getAttribute("cliente_id");
         return ResponseEntity.ok(findAllChatsUseCase.execute(UUID.fromString(clienteId.toString())));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChatResponseDTO> getChatDetails(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(findOneChatUseCase.execute(id));
     }
 
 }

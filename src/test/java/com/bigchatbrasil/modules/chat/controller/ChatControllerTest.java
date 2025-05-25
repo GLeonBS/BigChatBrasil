@@ -1,7 +1,9 @@
 package com.bigchatbrasil.modules.chat.controller;
 
+import com.bigchatbrasil.config.Fixtures;
 import com.bigchatbrasil.config.TestUtils;
 import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
+import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.chat.repository.ChatRepository;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
@@ -121,16 +123,45 @@ class ChatControllerTest {
 
         DestinatarioEntity destinatarioSalvo = destinatarioRepository.saveAndFlush(destinatario);
 
-        CreateChatRequestDTO createChatRequestDTO = CreateChatRequestDTO
-                .builder()
-                .remetente(clienteSalvo.getId())
-                .destinatario(destinatarioSalvo.getId())
-                .build();
+        ChatEntity chat = Fixtures.createChat(null, clienteSalvo, destinatarioSalvo);
+        chatRepository.saveAndFlush(chat);
 
         mockMvc.perform(get("/chat")
                 .requestAttr("cliente_id", clienteSalvo.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtils.objectToJson(createChatRequestDTO))
+        ).andExpect(status().isOk()).andDo(System.out::println);
+    }
+
+    @Test
+    void getChatDetails() throws Exception {
+        ClienteEntity cliente = new ClienteEntity();
+        cliente.setNome("Leon LTDA");
+        cliente.setDocumento("40089815000103");
+        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("11999999999");
+        cliente.setSenha("Senha123");
+        cliente.setRole(Role.ROLE_CLIENTE);
+
+        Conta conta = new Conta();
+        conta.setPlano(PlanoEnum.PRE_PAGO);
+        conta.setSaldo(new BigDecimal("100.00"));
+
+        cliente.setConta(conta);
+
+        ClienteEntity clienteSalvo = clienteRepository.saveAndFlush(cliente);
+
+        DestinatarioEntity destinatario = new DestinatarioEntity();
+        destinatario.setNome("Leon");
+        destinatario.setNumeroTelefone("44999999999");
+        destinatario.setCliente(clienteSalvo);
+
+        DestinatarioEntity destinatarioSalvo = destinatarioRepository.saveAndFlush(destinatario);
+
+        ChatEntity chat = Fixtures.createChat(null, clienteSalvo, destinatarioSalvo);
+        ChatEntity chatSalvo = chatRepository.saveAndFlush(chat);
+
+        mockMvc.perform(get("/chat/" + chatSalvo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andDo(System.out::println);
     }
 
