@@ -13,6 +13,8 @@ import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
 import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
+import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
+import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,6 +50,9 @@ class ChatControllerTest {
     @Autowired
     private ChatRepository chatRepository;
 
+    @Autowired
+    private MensagemRepository mensagemRepository;
+
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders
@@ -56,6 +62,7 @@ class ChatControllerTest {
 
     @AfterEach
     public void tearDown() {
+        mensagemRepository.deleteAll();
         chatRepository.deleteAll();
         destinatarioRepository.deleteAll();
         clienteRepository.deleteAll();
@@ -162,6 +169,47 @@ class ChatControllerTest {
 
         mockMvc.perform(get("/chat/" + chatSalvo.getId())
                 .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andDo(System.out::println);
+    }
+
+    @Test
+    void getMessages() throws Exception {
+        ClienteEntity cliente = new ClienteEntity();
+        cliente.setNome("Leon LTDA");
+        cliente.setDocumento("40089815000103");
+        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setNumeroTelefone("11999999999");
+        cliente.setSenha("Senha123");
+        cliente.setRole(Role.ROLE_CLIENTE);
+
+        Conta conta = new Conta();
+        conta.setPlano(PlanoEnum.PRE_PAGO);
+        conta.setSaldo(new BigDecimal("100.00"));
+
+        cliente.setConta(conta);
+
+        ClienteEntity clienteSalvo = clienteRepository.saveAndFlush(cliente);
+
+        DestinatarioEntity destinatario = new DestinatarioEntity();
+        destinatario.setNome("Leon");
+        destinatario.setNumeroTelefone("44999999999");
+        destinatario.setCliente(clienteSalvo);
+
+        DestinatarioEntity destinatarioSalvo = destinatarioRepository.saveAndFlush(destinatario);
+
+        ChatEntity chat = Fixtures.createChat(null, clienteSalvo, destinatarioSalvo);
+        ChatEntity chatSalvo = chatRepository.saveAndFlush(chat);
+
+        MensagemEntity mensagem = Fixtures.createMensagem(null, chatSalvo, "Mensagem de teste");
+        MensagemEntity mensagem2 = Fixtures.createMensagem(null, chatSalvo, "Mensagem de teste2");
+        chatSalvo.getMensagens().addAll(List.of(mensagem, mensagem2));
+        mensagemRepository.saveAll(List.of(mensagem, mensagem2));
+        chatRepository.saveAndFlush(chatSalvo);
+
+
+        mockMvc.perform(get("/chat/" + chatSalvo.getId() + "/mensagens")
+                .contentType(MediaType.APPLICATION_JSON)
+                .requestAttr("cliente_id", clienteSalvo.getId())
         ).andExpect(status().isOk()).andDo(System.out::println);
     }
 
