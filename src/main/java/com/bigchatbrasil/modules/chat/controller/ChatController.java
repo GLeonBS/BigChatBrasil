@@ -8,6 +8,7 @@ import com.bigchatbrasil.modules.chat.useCases.FindAllChatsUseCase;
 import com.bigchatbrasil.modules.chat.useCases.FindMessagesChatUseCase;
 import com.bigchatbrasil.modules.chat.useCases.FindOneChatUseCase;
 import com.bigchatbrasil.modules.mensagem.dto.MensagemResponseDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +28,26 @@ public class ChatController {
     private FindMessagesChatUseCase findMessagesChatUseCase;
 
     @PostMapping
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<ChatEntity> createDestinatario(@RequestBody CreateChatRequestDTO chat) {
         return ResponseEntity.ok(this.createChatUseCase.execute(chat));
     }
 
     @GetMapping
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<List<ChatResponseDTO>> getChats(HttpServletRequest request) {
         Object clienteId = request.getAttribute("cliente_id");
         return ResponseEntity.ok(findAllChatsUseCase.execute(UUID.fromString(clienteId.toString())));
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<ChatResponseDTO> getChatDetails(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(findOneChatUseCase.execute(id));
     }
 
     @GetMapping("/{id}/mensagens")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<List<MensagemResponseDTO>> getMessages(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(findMessagesChatUseCase.execute(id));
     }

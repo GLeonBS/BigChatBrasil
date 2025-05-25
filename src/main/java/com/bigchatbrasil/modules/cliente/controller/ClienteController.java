@@ -5,6 +5,7 @@ import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.ClienteResponseDTO;
 import com.bigchatbrasil.modules.cliente.dto.LoginClienteDTO;
 import com.bigchatbrasil.modules.cliente.useCases.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<ClienteResponseDTO> findCliente(@PathVariable UUID id) {
         return ResponseEntity.ok(this.findClienteUseCase.executeResponse(id));
     }
@@ -45,11 +47,13 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<ClienteResponseDTO> updateCliente(@PathVariable UUID id, @RequestBody ClienteRequestDTO cliente) {
         return ResponseEntity.ok(this.updateClienteUseCase.execute(id, cliente));
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<Void> deleteCliente(@PathVariable UUID id) {
         deleteClienteUseCase.execute(id);
         return ResponseEntity.noContent().build();
@@ -68,11 +72,13 @@ public class ClienteController {
     }
 
     @GetMapping("/saldo/{id}")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<BigDecimal> readSaldoCliente(@PathVariable UUID id) {
         return ResponseEntity.ok(this.readSaldoClienteUseCase.execute(id));
     }
 
     @PostMapping("/add-saldo-credito/{id}")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<BigDecimal> addSaldoCreditoCliente(@PathVariable UUID id,
                                                              @RequestBody BigDecimal saldo) {
         return ResponseEntity.ok(this.updateCreditoUseCase.execute(id, saldo));

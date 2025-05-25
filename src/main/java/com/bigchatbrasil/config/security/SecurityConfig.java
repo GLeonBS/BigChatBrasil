@@ -22,6 +22,7 @@ public class SecurityConfig {
     public static final String[] PERMIT_ALL_LIST = {
             "/swagger-ui/**",
             "/swagger-resources/**",
+            "/v3/api-docs/**",
             "/cliente/auth",
             "/cliente"
     };
