@@ -1,7 +1,7 @@
 package com.bigchatbrasil.modules.destinatario.controller;
 
 import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
-import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
+import com.bigchatbrasil.modules.destinatario.dto.DestinatarioRespondeDTO;
 import com.bigchatbrasil.modules.destinatario.useCases.CreateDestinatarioUseCase;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class DestinatarioController {
 
     @PostMapping
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<DestinatarioEntity> createDestinatario(
+    public ResponseEntity<DestinatarioRespondeDTO> createDestinatario(
             @RequestBody CreateDestinatarioRequestDTO destinatario) {
         return ResponseEntity.ok(this.createDestinatarioUseCase.execute(destinatario));
     }
