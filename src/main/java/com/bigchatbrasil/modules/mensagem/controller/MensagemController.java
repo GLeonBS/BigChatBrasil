@@ -2,8 +2,10 @@ package com.bigchatbrasil.modules.mensagem.controller;
 
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
 import com.bigchatbrasil.modules.mensagem.dto.MensagemResponseDTO;
+import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import com.bigchatbrasil.modules.mensagem.useCases.EnviarMensagensUseCase;
 import com.bigchatbrasil.modules.mensagem.useCases.FindOneMensagemUseCase;
+import com.bigchatbrasil.modules.mensagem.useCases.FindStatusMensagemUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ public class MensagemController {
 
     private EnviarMensagensUseCase enviarMensagensUseCase;
     private FindOneMensagemUseCase findOneMensagemUseCase;
+    private FindStatusMensagemUseCase findStatusMensagemUseCase;
 
     @PostMapping
     public ResponseEntity<MensagemResponseDTO> enviarMensagens(HttpServletRequest request, @RequestBody CreateMensagemRequestDTO mensagem) {
@@ -31,6 +34,11 @@ public class MensagemController {
     public ResponseEntity<MensagemResponseDTO> buscarMensagem(@PathVariable UUID id) {
         MensagemResponseDTO mensagemResponseDTO = this.findOneMensagemUseCase.execute(id);
         return ResponseEntity.ok(mensagemResponseDTO);
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<StatusMensagem> buscarStatus(@PathVariable UUID id) {
+        return ResponseEntity.ok(this.findStatusMensagemUseCase.execute(id));
     }
 
 }
