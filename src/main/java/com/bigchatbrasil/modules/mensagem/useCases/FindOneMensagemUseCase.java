@@ -1,5 +1,6 @@
 package com.bigchatbrasil.modules.mensagem.useCases;
 
+import com.bigchatbrasil.exceptions.MensagemNotFoundException;
 import com.bigchatbrasil.modules.mensagem.dto.MensagemResponseDTO;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
@@ -17,9 +18,9 @@ public class FindOneMensagemUseCase {
     public MensagemResponseDTO execute(UUID mensagemId) {
 
         MensagemEntity mensagem = repository.findById(mensagemId)
-                .orElseThrow(() -> new RuntimeException("Mensagem não encontrada"));
+                .orElseThrow(MensagemNotFoundException::new);
 
-        return new MensagemResponseDTO(mensagem.getId(), mensagem.getCliente().getId(), mensagem.getDestinatario().getId(), mensagem.getTexto(), mensagem.getDataHoraEnvio(), mensagem.getPrioridade(), mensagem.getStatus(), mensagem.getCusto());
+        return MensagemResponseDTO.from(mensagem);
     }
 
 

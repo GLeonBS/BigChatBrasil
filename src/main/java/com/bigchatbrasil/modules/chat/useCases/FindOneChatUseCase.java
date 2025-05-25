@@ -1,5 +1,6 @@
 package com.bigchatbrasil.modules.chat.useCases;
 
+import com.bigchatbrasil.exceptions.ChatNotFoundException;
 import com.bigchatbrasil.modules.chat.dto.ChatResponseDTO;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.chat.repository.ChatRepository;
@@ -15,19 +16,12 @@ public class FindOneChatUseCase {
     private ChatRepository chatRepository;
 
     public ChatResponseDTO execute(UUID id) {
-        ChatEntity chats = chatRepository.findById(id).orElseThrow(() -> new RuntimeException("Chat not found"));
-        ChatResponseDTO chatResponseDTO = ChatResponseDTO.builder()
-                .id(chats.getId())
-                .destinatarioId(chats.getDestinatario().getId())
-                .clienteId(chats.getRemetente().getId())
-                .nomeDestinatario(chats.getDestinatario().getNome())
-                .ultimaMensagem(chats.getMensagens().isEmpty() ? "" : chats.getMensagens().get(chats.getMensagens().size() - 1).getTexto())
-                .mensagensNaoLidas((int) chats.getMensagens().stream()
+        ChatEntity chat = chatRepository.findById(id).orElseThrow(ChatNotFoundException::new);
+        return ChatResponseDTO.from(chat,
+                chat.getMensagens().isEmpty() ? "" : chat.getMensagens().get(chat.getMensagens().size() - 1).getTexto(),
+                (int) chat.getMensagens().stream()
                         .filter(mensagem -> !StatusMensagem.LIDA.equals(mensagem.getStatus()))
-                        .count())
-                .build();
-
-        return chatResponseDTO;
+                        .count());
     }
 
 

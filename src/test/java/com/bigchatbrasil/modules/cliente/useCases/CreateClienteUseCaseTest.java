@@ -5,8 +5,8 @@ import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.enums.Role;
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.enums.RoleEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import org.junit.jupiter.api.Assertions;
@@ -48,7 +48,7 @@ class CreateClienteUseCaseTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("12345678901234")
-                .tipoDocumento(TipoDocumento.CNPJ)
+                .tipoDocumento(TipoDocumentoEnum.CNPJ)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
                 .senha("SenhaTeste")
@@ -61,7 +61,7 @@ class CreateClienteUseCaseTest {
                 clienteRequestDTO.documento(),
                 clienteRequestDTO.tipoDocumento(),
                 conta, true, clienteRequestDTO.numeroTelefone(), clienteRequestDTO.senha(),
-                Role.ROLE_CLIENTE);
+                RoleEnum.ROLE_CLIENTE);
 
         when(repository.findByDocumento(any())).thenReturn(Optional.empty());
 
@@ -81,7 +81,7 @@ class CreateClienteUseCaseTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("12345678901234")
-                .tipoDocumento(TipoDocumento.CNPJ)
+                .tipoDocumento(TipoDocumentoEnum.CNPJ)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
                 .senha("SenhaTeste")
@@ -92,7 +92,7 @@ class CreateClienteUseCaseTest {
 
         ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(), clienteRequestDTO.documento(),
                 clienteRequestDTO.tipoDocumento(), conta, true, clienteRequestDTO.numeroTelefone(),
-                clienteRequestDTO.senha(), Role.ROLE_CLIENTE);
+                clienteRequestDTO.senha(), RoleEnum.ROLE_CLIENTE);
 
         when(repository.findByDocumento(any())).thenReturn(Optional.of(cliente));
 

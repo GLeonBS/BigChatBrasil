@@ -2,8 +2,8 @@ package com.bigchatbrasil.modules.cliente.repository;
 
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.enums.Role;
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.enums.RoleEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -33,10 +33,10 @@ class ClienteRepositoryTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("11999999999");
         cliente.setSenha("Senha123");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);

@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.bigchatbrasil.config.security.dto.RecoveryJwtTokenDto;
-import com.bigchatbrasil.modules.cliente.security.UserDetailsImpl;
+import com.bigchatbrasil.modules.cliente.config.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;

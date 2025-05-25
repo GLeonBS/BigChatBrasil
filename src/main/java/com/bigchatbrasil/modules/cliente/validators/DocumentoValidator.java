@@ -2,7 +2,7 @@ package com.bigchatbrasil.modules.cliente.validators;
 
 import com.bigchatbrasil.modules.cliente.annotations.DocumentoValido;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -12,11 +12,11 @@ public class DocumentoValidator implements ConstraintValidator<DocumentoValido, 
         if (cliente == null) return true;
 
         String documento = cliente.getDocumento();
-        TipoDocumento tipo = cliente.getTipoDocumento();
+        TipoDocumentoEnum tipo = cliente.getTipoDocumento();
 
         if (documento == null || tipo == null) return false;
 
-        if (TipoDocumento.CPF.equals(tipo)) {
+        if (TipoDocumentoEnum.CPF.equals(tipo)) {
             return isValidCPF(documento);
         }
         return isValidCNPJ(documento);

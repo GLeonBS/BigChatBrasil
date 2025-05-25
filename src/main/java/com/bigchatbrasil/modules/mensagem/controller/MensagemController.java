@@ -28,15 +28,14 @@ public class MensagemController {
     @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<MensagemResponseDTO> enviarMensagens(HttpServletRequest request, @RequestBody CreateMensagemRequestDTO mensagem) {
         Object clienteId = request.getAttribute("cliente_id");
-        MensagemResponseDTO mensagemResponseDTO = this.enviarMensagensUseCase.execute(mensagem, UUID.fromString(clienteId.toString()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(mensagemResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.enviarMensagensUseCase.execute(mensagem, UUID.fromString(clienteId.toString())));
     }
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<MensagemResponseDTO> buscarMensagem(@PathVariable UUID id) {
-        MensagemResponseDTO mensagemResponseDTO = this.findOneMensagemUseCase.execute(id);
-        return ResponseEntity.ok(mensagemResponseDTO);
+        return ResponseEntity.ok(this.findOneMensagemUseCase.execute(id));
     }
 
     @GetMapping("/{id}/status")

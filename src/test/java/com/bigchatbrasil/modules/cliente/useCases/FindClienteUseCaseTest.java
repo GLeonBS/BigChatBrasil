@@ -53,7 +53,7 @@ class FindClienteUseCaseTest {
 
         Assertions.assertDoesNotThrow(() -> {
             ClienteResponseDTO clienteResponseDTO = findClienteUseCase.executeResponse(cliente.getId());
-            Assertions.assertEquals(cliente.getId(), clienteResponseDTO.getId());
+            Assertions.assertEquals(cliente.getId(), clienteResponseDTO.id());
         });
     }
 

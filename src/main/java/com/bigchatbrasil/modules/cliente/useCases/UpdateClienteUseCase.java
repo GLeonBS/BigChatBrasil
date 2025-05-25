@@ -2,13 +2,11 @@ package com.bigchatbrasil.modules.cliente.useCases;
 
 import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.ClienteResponseDTO;
-import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import com.bigchatbrasil.utils.MyBeansUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -32,19 +30,8 @@ public class UpdateClienteUseCase {
         cliente.setConta(conta);
 
         ClienteEntity clienteSalvo = repository.save(cliente);
-        Conta contaSalva = clienteSalvo.getConta();
-        ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
-        ContaRequestDTO contaRequestDTO = ContaRequestDTO.builder()
-                .plano(contaSalva.getPlano())
-                .credito(contaSalva.getCredito())
-                .limite(contaSalva.getLimite())
-                .limiteConsumido(contaSalva.getLimiteConsumido())
-                .build();
 
-        BeanUtils.copyProperties(clienteSalvo, clienteResponseDTO);
-        clienteResponseDTO.setConta(contaRequestDTO);
-
-        return clienteResponseDTO;
+        return ClienteResponseDTO.from(clienteSalvo);
     }
 
 }

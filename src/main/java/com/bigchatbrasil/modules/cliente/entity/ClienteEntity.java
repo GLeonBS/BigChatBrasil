@@ -1,8 +1,8 @@
 package com.bigchatbrasil.modules.cliente.entity;
 
 import com.bigchatbrasil.modules.cliente.annotations.DocumentoValido;
-import com.bigchatbrasil.modules.cliente.enums.Role;
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.enums.RoleEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -36,7 +36,7 @@ public class ClienteEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private TipoDocumento tipoDocumento;
+    private TipoDocumentoEnum tipoDocumento;
 
     @Embedded
     private Conta conta;
@@ -54,6 +54,6 @@ public class ClienteEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private RoleEnum role;
 
 }
