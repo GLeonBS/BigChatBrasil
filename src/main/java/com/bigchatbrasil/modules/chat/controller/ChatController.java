@@ -2,7 +2,6 @@ package com.bigchatbrasil.modules.chat.controller;
 
 import com.bigchatbrasil.modules.chat.dto.ChatResponseDTO;
 import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
-import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.chat.useCases.CreateChatUseCase;
 import com.bigchatbrasil.modules.chat.useCases.FindAllChatsUseCase;
 import com.bigchatbrasil.modules.chat.useCases.FindMessagesChatUseCase;
@@ -29,7 +28,7 @@ public class ChatController {
 
     @PostMapping
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<ChatEntity> createDestinatario(@RequestBody CreateChatRequestDTO chat) {
+    public ResponseEntity<ChatResponseDTO> createDestinatario(@RequestBody CreateChatRequestDTO chat) {
         return ResponseEntity.ok(this.createChatUseCase.execute(chat));
     }
 
