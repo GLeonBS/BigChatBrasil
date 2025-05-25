@@ -1,5 +1,6 @@
 package com.bigchatbrasil.modules.mensagem.useCases;
 
+import com.bigchatbrasil.exceptions.MensagemNotFoundException;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
@@ -17,7 +18,7 @@ public class FindStatusMensagemUseCase {
     public StatusMensagem execute(UUID mensagemId) {
 
         MensagemEntity mensagem = repository.findById(mensagemId)
-                .orElseThrow(() -> new RuntimeException("Mensagem não encontrada"));
+                .orElseThrow(MensagemNotFoundException::new);
 
         return mensagem.getStatus();
     }

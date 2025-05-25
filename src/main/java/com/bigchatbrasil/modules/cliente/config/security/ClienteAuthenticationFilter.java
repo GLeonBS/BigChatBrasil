@@ -1,6 +1,7 @@
-package com.bigchatbrasil.modules.cliente.security;
+package com.bigchatbrasil.modules.cliente.config.security;
 
 import com.bigchatbrasil.config.security.SecurityConfig;
+import com.bigchatbrasil.exceptions.TokenNotFoundException;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.useCases.ClienteTokenUseCase;
@@ -46,7 +47,7 @@ public class ClienteAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                throw new RuntimeException("O token está ausente.");
+                throw new TokenNotFoundException();
             }
         }
         filterChain.doFilter(request, response);

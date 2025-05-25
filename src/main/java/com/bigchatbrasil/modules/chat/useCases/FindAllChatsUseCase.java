@@ -17,17 +17,12 @@ public class FindAllChatsUseCase {
 
     public List<ChatResponseDTO> execute(UUID id) {
         List<ChatEntity> chats = chatRepository.findAllByRemetenteId(id);
-        List<ChatResponseDTO> chatResponseDTOs = chats.stream()
-                .map(chat -> ChatResponseDTO.builder()
-                        .id(chat.getId())
-                        .clienteId(chat.getRemetente().getId())
-                        .destinatarioId(chat.getDestinatario().getId())
-                        .nomeDestinatario(chat.getDestinatario().getNome())
-                        .ultimaMensagem(chat.getMensagens().isEmpty() ? "" : chat.getMensagens().get(chat.getMensagens().size() - 1).getTexto())
-                        .mensagensNaoLidas((int) chat.getMensagens().stream().filter(mensagem -> !StatusMensagem.LIDA.equals(mensagem.getStatus())).count())
-                        .build())
+        return chats.stream()
+                .map(chat ->
+                        ChatResponseDTO.from(chat,
+                                chat.getMensagens().isEmpty() ? "" : chat.getMensagens().get(chat.getMensagens().size() - 1).getTexto(),
+                                (int) chat.getMensagens().stream().filter(mensagem -> !StatusMensagem.LIDA.equals(mensagem.getStatus())).count()))
                 .toList();
-        return chatResponseDTOs;
     }
 
 

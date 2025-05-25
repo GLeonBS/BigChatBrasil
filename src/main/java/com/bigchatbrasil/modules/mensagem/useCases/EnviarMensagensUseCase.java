@@ -1,5 +1,9 @@
 package com.bigchatbrasil.modules.mensagem.useCases;
 
+import com.bigchatbrasil.exceptions.ChatNotFoundException;
+import com.bigchatbrasil.exceptions.DestinatarioNotFoundException;
+import com.bigchatbrasil.exceptions.EstrategiaEnvioNotFoundException;
+import com.bigchatbrasil.exceptions.PlanoNotFoundException;
 import com.bigchatbrasil.modules.chat.repository.ChatRepository;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.interfaces.CheckSaldo;
@@ -40,27 +44,19 @@ public class EnviarMensagensUseCase {
 
     public MensagemResponseDTO execute(CreateMensagemRequestDTO mensagem, UUID clienteId) {
         ClienteEntity cliente = findClienteUseCase.execute(clienteId);
-        MensagemEntity mensagemEntity = new MensagemEntity();
-        mensagemEntity.setChat(chatRepository.findById(mensagem.chatId()).orElseThrow(() -> new RuntimeException("Chat não encontrado")));
-        mensagemEntity.setCliente(cliente);
-        mensagemEntity.setDestinatario(destinatarioRepository.findById(mensagem.destinatarioId()).orElseThrow(() -> new RuntimeException("Destinatário não encontrado")));
-        mensagemEntity.setTexto(mensagem.texto());
-        mensagemEntity.setPrioridade(mensagem.prioridade());
-        mensagemEntity.setWhatsapp(mensagem.whatsapp());
+        MensagemEntity mensagemEntity = getMensagemEntity(mensagem, cliente);
         filaMensagens.offer(mensagemEntity);
-        mensagemEntity.setStatus(StatusMensagem.NA_FILA);
-        mensagemEntity.setCusto(Prioridade.NORMAL.equals(mensagem.prioridade()) ? CheckSaldo.valorNormal : CheckSaldo.valorPrioritario);
         MensagemEntity mensagemSalva = repository.save(mensagemEntity);
         processarFila(cliente, mensagem.prioridade());
 
-        return new MensagemResponseDTO(mensagemSalva.getId(), mensagemSalva.getCliente().getId(), mensagemSalva.getDestinatario().getId(), mensagemSalva.getTexto(), mensagemSalva.getDataHoraEnvio(), mensagemSalva.getPrioridade(), mensagemSalva.getStatus(), mensagemSalva.getCusto());
+        return MensagemResponseDTO.from(mensagemSalva);
     }
 
     private void processarFila(ClienteEntity cliente, Prioridade prioridade) {
 
         CheckSaldo checkSaldo = estrategiasSaldos.stream()
                 .filter(estrategia -> cliente.getConta().getPlano().equals(estrategia.getPlano()))
-                .findFirst().orElseThrow(() -> new RuntimeException("Plano não encontrado"));
+                .findFirst().orElseThrow(PlanoNotFoundException::new);
 
         checkSaldo.verificaDescontaSaldoCliente(cliente, prioridade);
         while (!filaMensagens.isEmpty()) {
@@ -69,13 +65,27 @@ public class EnviarMensagensUseCase {
                 mensagem.setStatus(StatusMensagem.PROCESSANDO);
                 EnviarMensagem enviarMensagem = estrategiaEnvio.stream()
                         .filter(estrategia -> mensagem.isWhatsapp() == estrategia.viaWhatsapp())
-                        .findFirst().orElseThrow(() -> new RuntimeException("Estratégia de envio não encontrada"));
+                        .findFirst().orElseThrow(EstrategiaEnvioNotFoundException::new);
 
                 enviarMensagem.enviarMensagem(mensagem);
                 mensagem.setStatus(StatusMensagem.ENVIADA);
                 repository.save(mensagem);
             }
         }
+    }
+
+
+    private MensagemEntity getMensagemEntity(CreateMensagemRequestDTO mensagem, ClienteEntity cliente) {
+        MensagemEntity mensagemEntity = new MensagemEntity();
+        mensagemEntity.setChat(chatRepository.findById(mensagem.chatId()).orElseThrow(ChatNotFoundException::new));
+        mensagemEntity.setCliente(cliente);
+        mensagemEntity.setDestinatario(destinatarioRepository.findById(mensagem.destinatarioId()).orElseThrow(DestinatarioNotFoundException::new));
+        mensagemEntity.setTexto(mensagem.texto());
+        mensagemEntity.setPrioridade(mensagem.prioridade());
+        mensagemEntity.setWhatsapp(mensagem.whatsapp());
+        mensagemEntity.setStatus(StatusMensagem.NA_FILA);
+        mensagemEntity.setCusto(Prioridade.NORMAL.equals(mensagem.prioridade()) ? CheckSaldo.valorNormal : CheckSaldo.valorPrioritario);
+        return mensagemEntity;
     }
 
 

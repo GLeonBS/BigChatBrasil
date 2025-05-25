@@ -1,7 +1,7 @@
 # API - BigChatBrasil
 
-Esta é uma API RESTful para gerenciamento de envio de mensagens, desenvolvida com **Spring Boot**, **PostgreSQL** e *
-*Java 17**.
+Esta é uma API RESTful para gerenciamento de envio de mensagens, desenvolvida com **Spring Boot**, **PostgreSQL** e
+**Java 17**.
 
 ---
 
@@ -23,7 +23,7 @@ o [Docker Compose](https://docs.docker.com/compose/) instalados.
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/bigchatbrasil.git
+git clone https://github.com/GLeonBS/BigChatBrasil.git
 cd bigchatbrasil
 ```
 

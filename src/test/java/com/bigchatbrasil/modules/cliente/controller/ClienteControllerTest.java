@@ -6,8 +6,8 @@ import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.LoginClienteDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.enums.Role;
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.enums.RoleEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import org.junit.jupiter.api.AfterEach;
@@ -63,7 +63,7 @@ class ClienteControllerTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("19681538021")
-                .tipoDocumento(TipoDocumento.CPF)
+                .tipoDocumento(TipoDocumentoEnum.CPF)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
                 .senha("SenhaTeste")
@@ -85,7 +85,7 @@ class ClienteControllerTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("48783125000161")
-                .tipoDocumento(TipoDocumento.CNPJ)
+                .tipoDocumento(TipoDocumentoEnum.CNPJ)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
                 .senha("SenhaTeste")
@@ -107,7 +107,7 @@ class ClienteControllerTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("00000000000")
-                .tipoDocumento(TipoDocumento.CPF)
+                .tipoDocumento(TipoDocumentoEnum.CPF)
                 .conta(contaRequestDTO)
                 .build();
 
@@ -127,7 +127,7 @@ class ClienteControllerTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Nome")
                 .documento("00000000000000")
-                .tipoDocumento(TipoDocumento.CNPJ)
+                .tipoDocumento(TipoDocumentoEnum.CNPJ)
                 .conta(contaRequestDTO)
                 .build();
 
@@ -141,10 +141,10 @@ class ClienteControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("44999999999");
         cliente.setSenha("SenhaTeste");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -164,10 +164,10 @@ class ClienteControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("44999999999");
         cliente.setSenha("SenhaTeste");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -187,10 +187,10 @@ class ClienteControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("44999999999");
         cliente.setSenha("SenhaTeste");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -222,10 +222,10 @@ class ClienteControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("44999999999");
         cliente.setSenha("SenhaTeste");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -246,10 +246,10 @@ class ClienteControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("44999999999");
         cliente.setSenha("SenhaTeste");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -260,10 +260,10 @@ class ClienteControllerTest {
         ClienteEntity cliente2 = new ClienteEntity();
         cliente2.setNome("Augusto LTDA");
         cliente2.setDocumento("99608096090");
-        cliente2.setTipoDocumento(TipoDocumento.CPF);
+        cliente2.setTipoDocumento(TipoDocumentoEnum.CPF);
         cliente2.setNumeroTelefone("44999999998");
         cliente2.setSenha("SenhaTeste");
-        cliente2.setRole(Role.ROLE_CLIENTE);
+        cliente2.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta2 = new Conta();
         conta2.setPlano(PlanoEnum.POS_PAGO);
@@ -283,10 +283,10 @@ class ClienteControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon LTDA");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("44999999999");
         cliente.setSenha("SenhaTeste");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -316,7 +316,7 @@ class ClienteControllerTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Leon LTDA")
                 .documento("40089815000103")
-                .tipoDocumento(TipoDocumento.CNPJ)
+                .tipoDocumento(TipoDocumentoEnum.CNPJ)
                 .numeroTelefone("44999999999")
                 .senha("SenhaTeste")
                 .conta(contaRequestDTO)
@@ -345,7 +345,7 @@ class ClienteControllerTest {
         ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
                 .nome("Leon LTDA")
                 .documento("40089815000103")
-                .tipoDocumento(TipoDocumento.CNPJ)
+                .tipoDocumento(TipoDocumentoEnum.CNPJ)
                 .numeroTelefone("44999999999")
                 .senha("SenhaTeste")
                 .conta(contaRequestDTO)

@@ -1,20 +1,29 @@
 package com.bigchatbrasil.modules.cliente.dto;
 
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
-import lombok.*;
+import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
+import com.bigchatbrasil.modules.cliente.vo.Conta;
 
 import java.util.UUID;
 
-@Data
-@EqualsAndHashCode(of = "id")
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class ClienteResponseDTO {
-    private UUID id;
-    private String nome;
-    private String documento;
-    private TipoDocumento tipoDocumento;
-    private ContaRequestDTO conta;
-    private boolean ativo;
+public record ClienteResponseDTO(UUID id, String nome, String documento, TipoDocumentoEnum tipoDocumento,
+                                 ContaRequestDTO conta, boolean ativo) {
+    public static ClienteResponseDTO from(ClienteEntity cliente) {
+        Conta conta = cliente.getConta();
+        ContaRequestDTO contaRequestDTO = ContaRequestDTO.builder()
+                .plano(conta.getPlano())
+                .credito(conta.getCredito())
+                .limite(conta.getLimite())
+                .limiteConsumido(conta.getLimiteConsumido())
+                .build();
+        return new ClienteResponseDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getDocumento(),
+                cliente.getTipoDocumento(),
+                contaRequestDTO,
+                cliente.getAtivo());
+
+    }
+
 }

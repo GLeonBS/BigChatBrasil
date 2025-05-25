@@ -6,10 +6,7 @@ import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Builder
 public class ChatEntity {
 
     @Id
@@ -39,5 +37,6 @@ public class ChatEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "chat")
+    @Builder.Default
     private List<MensagemEntity> mensagens = new ArrayList<>();
 }

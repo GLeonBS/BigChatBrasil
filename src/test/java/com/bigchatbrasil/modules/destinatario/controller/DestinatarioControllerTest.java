@@ -3,8 +3,8 @@ package com.bigchatbrasil.modules.destinatario.controller;
 import com.bigchatbrasil.config.TestUtils;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
-import com.bigchatbrasil.modules.cliente.enums.Role;
-import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
+import com.bigchatbrasil.modules.cliente.enums.RoleEnum;
+import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import com.bigchatbrasil.modules.destinatario.dto.CreateDestinatarioRequestDTO;
@@ -58,10 +58,10 @@ class DestinatarioControllerTest {
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome("Leon");
         cliente.setDocumento("40089815000103");
-        cliente.setTipoDocumento(TipoDocumento.CNPJ);
+        cliente.setTipoDocumento(TipoDocumentoEnum.CNPJ);
         cliente.setNumeroTelefone("11999999999");
         cliente.setSenha("Senha123");
-        cliente.setRole(Role.ROLE_CLIENTE);
+        cliente.setRole(RoleEnum.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);

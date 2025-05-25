@@ -1,5 +1,6 @@
 package com.bigchatbrasil.modules.chat.useCases;
 
+import com.bigchatbrasil.exceptions.DestinatarioNotFoundException;
 import com.bigchatbrasil.modules.chat.dto.ChatResponseDTO;
 import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
@@ -22,24 +23,16 @@ public class CreateChatUseCase {
     private final DestinatarioRepository destinatarioRepository;
 
     public ChatResponseDTO execute(CreateChatRequestDTO chatRequestDTO) {
-        ChatEntity chatEntity = new ChatEntity();
         ClienteEntity cliente = findClienteUseCase.execute(chatRequestDTO.remetente());
         DestinatarioEntity destinatario = destinatarioRepository.findById(chatRequestDTO.destinatario())
-                .orElseThrow(() -> new RuntimeException("Destinatário não encontrado"));
-        chatEntity.setRemetente(cliente);
-        chatEntity.setDestinatario(destinatario);
+                .orElseThrow(DestinatarioNotFoundException::new);
+        ChatEntity chatEntity = ChatEntity.builder()
+                .remetente(cliente)
+                .destinatario(destinatario)
+                .build();
         ChatEntity chatSalvo = repository.save(chatEntity);
 
-        ChatResponseDTO chatResponseDTO = new ChatResponseDTO(
-                chatSalvo.getId(),
-                chatSalvo.getRemetente().getId(),
-                chatSalvo.getDestinatario().getId(),
-                chatSalvo.getDestinatario().getNome(),
-                null,
-                0
-        );
-
-        return chatResponseDTO;
+        return ChatResponseDTO.from(chatSalvo, null, 0);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.bigchatbrasil.config.security;
 
-import com.bigchatbrasil.modules.cliente.security.ClienteAuthenticationFilter;
+import com.bigchatbrasil.modules.cliente.config.security.ClienteAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

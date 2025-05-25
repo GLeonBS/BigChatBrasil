@@ -37,7 +37,7 @@ class FindAllClientsUseCaseTest {
         Assertions.assertDoesNotThrow(() -> {
             List<ClienteResponseDTO> clientes = findClienteUseCase.execute();
             Assertions.assertEquals(2, clientes.size());
-            assertThat(clientes).extracting(ClienteResponseDTO::getNome).containsAll(List.of(cliente.getNome(), cliente2.getNome()));
+            assertThat(clientes).extracting(ClienteResponseDTO::nome).containsAll(List.of(cliente.getNome(), cliente2.getNome()));
         });
     }
 
