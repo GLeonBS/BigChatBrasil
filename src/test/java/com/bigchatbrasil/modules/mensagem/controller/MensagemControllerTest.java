@@ -9,6 +9,7 @@ import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
 import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
+import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
 import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -87,6 +88,22 @@ class MensagemControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtils.objectToJson(createMensagemRequestDTO2))
         ).andExpect(status().isCreated()).andDo(System.out::println);
+    }
+
+    @Test
+    void buscarMensagem() throws Exception {
+        ClienteEntity clienteSalvo = clienteRepository.saveAndFlush(Fixtures.createCliente(null));
+
+        DestinatarioEntity destinatario = destinatarioRepository.saveAndFlush(Fixtures.createDestinatario(null, clienteSalvo));
+
+        ChatEntity chatSalvo = chatRepository.saveAndFlush(Fixtures.createChat(null, clienteSalvo, destinatario));
+
+        MensagemEntity mensagemSalva = mensagemRepository.saveAndFlush(Fixtures.createMensagem(null, chatSalvo, "Teste mensagem"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/mensagem/" + mensagemSalva.getId())
+                .requestAttr("cliente_id", clienteSalvo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andDo(System.out::println);
     }
 
 }

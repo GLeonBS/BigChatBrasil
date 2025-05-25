@@ -66,6 +66,7 @@ public class EnviarMensagensUseCase {
         while (!filaMensagens.isEmpty()) {
             MensagemEntity mensagem = filaMensagens.poll();
             if (mensagem != null) {
+                mensagem.setStatus(StatusMensagem.PROCESSANDO);
                 EnviarMensagem enviarMensagem = estrategiaEnvio.stream()
                         .filter(estrategia -> mensagem.isWhatsapp() == estrategia.viaWhatsapp())
                         .findFirst().orElseThrow(() -> new RuntimeException("Estratégia de envio não encontrada"));
