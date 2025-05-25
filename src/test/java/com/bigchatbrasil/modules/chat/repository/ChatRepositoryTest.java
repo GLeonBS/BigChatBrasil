@@ -36,10 +36,14 @@ class ChatRepositoryTest {
         clienteRepository.deleteAll();
     }
 
+
     @Test
-    void findAllByIdIn() {
+    void findAllByRemeteteIdIn() {
         ClienteEntity cliente = Fixtures.createCliente(null);
         clienteRepository.saveAndFlush(cliente);
+
+        ClienteEntity cliente2 = Fixtures.createCliente(null);
+        clienteRepository.saveAndFlush(cliente2);
 
         DestinatarioEntity destinatario = Fixtures.createDestinatario(null, cliente);
         destinatarioRepository.saveAndFlush(destinatario);
@@ -51,15 +55,15 @@ class ChatRepositoryTest {
         destinatarioRepository.saveAllAndFlush(List.of(destinatario, destinatario2, destinatario3));
 
         ChatEntity chat = Fixtures.createChat(null, cliente, destinatario);
-        ChatEntity chat2 = Fixtures.createChat(null, cliente, destinatario2);
+        ChatEntity chat2 = Fixtures.createChat(null, cliente2, destinatario2);
         ChatEntity chat3 = Fixtures.createChat(null, cliente, destinatario3);
 
         repository.saveAllAndFlush(List.of(chat, chat2, chat3));
 
-        List<ChatEntity> chats = repository.findAllByIdIn(List.of(chat.getId(), chat2.getId()));
+        List<ChatEntity> chats = repository.findAllByRemetenteId(cliente.getId());
 
         assertThat(chats).isNotNull();
         assertThat(chats.size()).isEqualTo(2);
-        assertThat(chats).extracting(ChatEntity::getId).containsOnly(chat.getId(), chat2.getId());
+        assertThat(chats).extracting(ChatEntity::getId).containsOnly(chat.getId(), chat3.getId());
     }
 }

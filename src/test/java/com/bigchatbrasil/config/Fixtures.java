@@ -3,11 +3,16 @@ package com.bigchatbrasil.config;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.Role;
 import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
+import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
+import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Fixtures {
@@ -16,7 +21,7 @@ public class Fixtures {
         Conta conta = new Conta(PlanoEnum.PRE_PAGO, new BigDecimal("100.00"), BigDecimal.ZERO, BigDecimal.ZERO);
 
         return new ClienteEntity(id, "Leon ltda", "49387186000172", TipoDocumento.CNPJ,
-                conta, true, "44999999999");
+                conta, true, "44999999999", "SenhaTeste", Role.ROLE_CLIENTE);
     }
 
     public static DestinatarioEntity createDestinatario(UUID id, ClienteEntity cliente) {
@@ -37,5 +42,20 @@ public class Fixtures {
         chat.setRemetente(cliente);
         chat.setDestinatario(destinatario);
         return chat;
+    }
+
+    public static MensagemEntity createMensagem(UUID id, ChatEntity chat, String texto) {
+        MensagemEntity mensagem = new MensagemEntity();
+        mensagem.setId(id);
+        mensagem.setChat(chat);
+        mensagem.setCliente(chat.getRemetente());
+        mensagem.setDestinatario(chat.getDestinatario());
+        mensagem.setDataHoraEnvio(LocalDateTime.of(2025, 5, 25, 11, 2));
+        mensagem.setPrioridade(Prioridade.NORMAL);
+        mensagem.setStatus(StatusMensagem.ENTREGUE);
+        mensagem.setCusto(BigDecimal.valueOf(0.25));
+        mensagem.setWhatsapp(false);
+        mensagem.setTexto(texto);
+        return mensagem;
     }
 }

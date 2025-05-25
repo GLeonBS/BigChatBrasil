@@ -3,8 +3,10 @@ package com.bigchatbrasil.modules.cliente.controller;
 import com.bigchatbrasil.config.TestUtils;
 import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
+import com.bigchatbrasil.modules.cliente.dto.LoginClienteDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.Role;
 import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
@@ -64,6 +66,7 @@ class ClienteControllerTest {
                 .tipoDocumento(TipoDocumento.CPF)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
+                .senha("SenhaTeste")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
@@ -85,6 +88,7 @@ class ClienteControllerTest {
                 .tipoDocumento(TipoDocumento.CNPJ)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
+                .senha("SenhaTeste")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
@@ -139,6 +143,8 @@ class ClienteControllerTest {
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
         cliente.setNumeroTelefone("44999999999");
+        cliente.setSenha("SenhaTeste");
+        cliente.setRole(Role.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -160,7 +166,8 @@ class ClienteControllerTest {
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
         cliente.setNumeroTelefone("44999999999");
-
+        cliente.setSenha("SenhaTeste");
+        cliente.setRole(Role.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -182,7 +189,8 @@ class ClienteControllerTest {
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
         cliente.setNumeroTelefone("44999999999");
-
+        cliente.setSenha("SenhaTeste");
+        cliente.setRole(Role.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -216,6 +224,8 @@ class ClienteControllerTest {
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
         cliente.setNumeroTelefone("44999999999");
+        cliente.setSenha("SenhaTeste");
+        cliente.setRole(Role.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -238,6 +248,8 @@ class ClienteControllerTest {
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
         cliente.setNumeroTelefone("44999999999");
+        cliente.setSenha("SenhaTeste");
+        cliente.setRole(Role.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -250,6 +262,8 @@ class ClienteControllerTest {
         cliente2.setDocumento("99608096090");
         cliente2.setTipoDocumento(TipoDocumento.CPF);
         cliente2.setNumeroTelefone("44999999998");
+        cliente2.setSenha("SenhaTeste");
+        cliente2.setRole(Role.ROLE_CLIENTE);
 
         Conta conta2 = new Conta();
         conta2.setPlano(PlanoEnum.POS_PAGO);
@@ -271,6 +285,8 @@ class ClienteControllerTest {
         cliente.setDocumento("40089815000103");
         cliente.setTipoDocumento(TipoDocumento.CNPJ);
         cliente.setNumeroTelefone("44999999999");
+        cliente.setSenha("SenhaTeste");
+        cliente.setRole(Role.ROLE_CLIENTE);
 
         Conta conta = new Conta();
         conta.setPlano(PlanoEnum.PRE_PAGO);
@@ -288,5 +304,63 @@ class ClienteControllerTest {
 
         assertThat(clienteDeletado).isNotNull();
         assertThat(clienteDeletado.getAtivo()).isFalse();
+    }
+
+    @Test
+    void deveAutenticarUmCliente() throws Exception {
+        ContaRequestDTO contaRequestDTO = ContaRequestDTO.builder()
+                .plano(PlanoEnum.POS_PAGO)
+                .limite(new BigDecimal("100.00"))
+                .build();
+
+        ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
+                .nome("Leon LTDA")
+                .documento("40089815000103")
+                .tipoDocumento(TipoDocumento.CNPJ)
+                .numeroTelefone("44999999999")
+                .senha("SenhaTeste")
+                .conta(contaRequestDTO)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.objectToJson(clienteRequestDTO))
+        ).andExpect(status().isOk()).andDo(System.out::println);
+
+        String loginClienteJson = TestUtils.objectToJson(new LoginClienteDTO("40089815000103", "SenhaTeste"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/cliente/auth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginClienteJson)
+        ).andExpect(status().isOk()).andDo(System.out::println);
+    }
+
+    @Test
+    void deveRecusarUmaAutenticacao() throws Exception {
+        ContaRequestDTO contaRequestDTO = ContaRequestDTO.builder()
+                .plano(PlanoEnum.POS_PAGO)
+                .limite(new BigDecimal("100.00"))
+                .build();
+
+        ClienteRequestDTO clienteRequestDTO = ClienteRequestDTO.builder()
+                .nome("Leon LTDA")
+                .documento("40089815000103")
+                .tipoDocumento(TipoDocumento.CNPJ)
+                .numeroTelefone("44999999999")
+                .senha("SenhaTeste")
+                .conta(contaRequestDTO)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/cliente")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.objectToJson(clienteRequestDTO))
+        ).andExpect(status().isOk()).andDo(System.out::println);
+
+        String loginClienteJson = TestUtils.objectToJson(new LoginClienteDTO("40089815000103", "SenhaTest3"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/cliente/auth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginClienteJson)
+        ).andExpect(status().isUnauthorized()).andDo(System.out::println);
     }
 }

@@ -5,6 +5,7 @@ import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
 import com.bigchatbrasil.modules.cliente.dto.ContaRequestDTO;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
+import com.bigchatbrasil.modules.cliente.enums.Role;
 import com.bigchatbrasil.modules.cliente.enums.TipoDocumento;
 import com.bigchatbrasil.modules.cliente.repository.ClienteRepository;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -28,6 +30,9 @@ class CreateClienteUseCaseTest {
 
     @Mock
     private ClienteRepository repository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private CreateClienteUseCase createClienteUseCase;
@@ -46,6 +51,7 @@ class CreateClienteUseCaseTest {
                 .tipoDocumento(TipoDocumento.CNPJ)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
+                .senha("SenhaTeste")
                 .build();
 
         Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
@@ -54,7 +60,8 @@ class CreateClienteUseCaseTest {
         ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(),
                 clienteRequestDTO.documento(),
                 clienteRequestDTO.tipoDocumento(),
-                conta, true, clienteRequestDTO.numeroTelefone());
+                conta, true, clienteRequestDTO.numeroTelefone(), clienteRequestDTO.senha(),
+                Role.ROLE_CLIENTE);
 
         when(repository.findByDocumento(any())).thenReturn(Optional.empty());
 
@@ -77,15 +84,15 @@ class CreateClienteUseCaseTest {
                 .tipoDocumento(TipoDocumento.CNPJ)
                 .conta(contaRequestDTO)
                 .numeroTelefone("44999999999")
+                .senha("SenhaTeste")
                 .build();
 
         Conta conta = new Conta(contaRequestDTO.plano(), contaRequestDTO.limite(), contaRequestDTO.credito(),
                 BigDecimal.ZERO);
 
-        ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(),
-                clienteRequestDTO.documento(),
-                clienteRequestDTO.tipoDocumento(),
-                conta, true, clienteRequestDTO.numeroTelefone());
+        ClienteEntity cliente = new ClienteEntity(UUID.randomUUID(), clienteRequestDTO.nome(), clienteRequestDTO.documento(),
+                clienteRequestDTO.tipoDocumento(), conta, true, clienteRequestDTO.numeroTelefone(),
+                clienteRequestDTO.senha(), Role.ROLE_CLIENTE);
 
         when(repository.findByDocumento(any())).thenReturn(Optional.of(cliente));
 

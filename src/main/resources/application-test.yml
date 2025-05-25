@@ -2,8 +2,8 @@ spring:
   liquibase:
     enabled: false
   config:
-      activate:
-        on-profile: test
+    activate:
+      on-profile: test
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
@@ -18,3 +18,7 @@ spring:
 server:
   port: 9090
 
+security:
+  token:
+    secret:
+      cliente: "cliente_secret_test"

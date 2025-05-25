@@ -1,12 +1,16 @@
 package com.bigchatbrasil.modules.cliente.controller;
 
+import com.bigchatbrasil.config.security.dto.RecoveryJwtTokenDto;
 import com.bigchatbrasil.modules.cliente.dto.ClienteRequestDTO;
-import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
+import com.bigchatbrasil.modules.cliente.dto.ClienteResponseDTO;
+import com.bigchatbrasil.modules.cliente.dto.LoginClienteDTO;
 import com.bigchatbrasil.modules.cliente.useCases.*;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -23,24 +27,25 @@ public class ClienteController {
     private UpdateCreditoUseCase updateCreditoUseCase;
     private FindAllClientsUseCase findAllClientsUseCase;
     private DeleteClienteUseCase deleteClienteUseCase;
+    private LoginClienteUseCase loginClienteUseCase;
 
     @PostMapping
-    public ResponseEntity<ClienteEntity> createCliente(@RequestBody ClienteRequestDTO cliente) {
+    public ResponseEntity<ClienteResponseDTO> createCliente(@RequestBody ClienteRequestDTO cliente) {
         return ResponseEntity.ok(this.createClienteUseCase.execute(cliente));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteEntity> findCliente(@PathVariable UUID id) {
-        return ResponseEntity.ok(this.findClienteUseCase.execute(id));
+    public ResponseEntity<ClienteResponseDTO> findCliente(@PathVariable UUID id) {
+        return ResponseEntity.ok(this.findClienteUseCase.executeResponse(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ClienteEntity>> findAllClients() {
+    public ResponseEntity<List<ClienteResponseDTO>> findAllClients() {
         return ResponseEntity.ok(this.findAllClientsUseCase.execute());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteEntity> updateCliente(@PathVariable UUID id, @RequestBody ClienteRequestDTO cliente) {
+    public ResponseEntity<ClienteResponseDTO> updateCliente(@PathVariable UUID id, @RequestBody ClienteRequestDTO cliente) {
         return ResponseEntity.ok(this.updateClienteUseCase.execute(id, cliente));
     }
 
@@ -48,6 +53,18 @@ public class ClienteController {
     public ResponseEntity<Void> deleteCliente(@PathVariable UUID id) {
         deleteClienteUseCase.execute(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<Object> loginCliente(@RequestBody LoginClienteDTO cliente) {
+        try {
+            RecoveryJwtTokenDto token = loginClienteUseCase.execute(cliente);
+            return ResponseEntity.ok(token);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/saldo/{id}")

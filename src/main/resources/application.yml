@@ -22,3 +22,8 @@ server:
   error:
     include-stacktrace: never
 
+security:
+  token:
+    secret:
+      cliente: "cliente_secret_prod"
+

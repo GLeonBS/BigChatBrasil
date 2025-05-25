@@ -11,9 +11,9 @@ public interface CheckSaldo {
     BigDecimal valorNormal = new BigDecimal("0.25");
     BigDecimal valorPrioritario = new BigDecimal("0.50");
 
-    void verificaSaldoCliente(ClienteEntity client, int mensagensNormais, int mensagensPrioritariase);
+    void verificaDescontaSaldoCliente(ClienteEntity client, Prioridade prioridade);
 
-    void descontaSaldoCliente(ClienteEntity cliente, Prioridade prioridade);
+    void descontaSaldoCliente(ClienteEntity cliente, Prioridade prioridade, BigDecimal valor);
 
     PlanoEnum getPlano();
 }

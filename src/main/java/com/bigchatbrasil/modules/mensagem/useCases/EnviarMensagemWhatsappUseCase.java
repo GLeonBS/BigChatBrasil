@@ -1,9 +1,7 @@
 package com.bigchatbrasil.modules.mensagem.useCases;
 
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import com.bigchatbrasil.modules.mensagem.interfaces.EnviarMensagem;
-import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +9,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class EnviarMensagemWhatsappUseCase implements EnviarMensagem {
 
-    MensagemRepository mensagemRepository;
-
     @Override
     public void enviarMensagem(MensagemEntity mensagem) {
         System.out.println("Enviando mensagem via Whatsapp: " + mensagem.getTexto());
-        mensagem.setStatus(StatusMensagem.ENVIADA);
-
-        mensagemRepository.save(mensagem);
     }
 
     @Override

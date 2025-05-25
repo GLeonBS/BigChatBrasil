@@ -1,14 +1,20 @@
 package com.bigchatbrasil.modules.chat.controller;
 
+import com.bigchatbrasil.modules.chat.dto.ChatResponseDTO;
 import com.bigchatbrasil.modules.chat.dto.CreateChatRequestDTO;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.chat.useCases.CreateChatUseCase;
+import com.bigchatbrasil.modules.chat.useCases.FindAllChatsUseCase;
+import com.bigchatbrasil.modules.chat.useCases.FindMessagesChatUseCase;
+import com.bigchatbrasil.modules.chat.useCases.FindOneChatUseCase;
+import com.bigchatbrasil.modules.mensagem.dto.MensagemResponseDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/chat")
@@ -16,10 +22,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
 
     private CreateChatUseCase createChatUseCase;
+    private FindAllChatsUseCase findAllChatsUseCase;
+    private FindOneChatUseCase findOneChatUseCase;
+    private FindMessagesChatUseCase findMessagesChatUseCase;
 
     @PostMapping
     public ResponseEntity<ChatEntity> createDestinatario(@RequestBody CreateChatRequestDTO chat) {
         return ResponseEntity.ok(this.createChatUseCase.execute(chat));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ChatResponseDTO>> getChats(HttpServletRequest request) {
+        Object clienteId = request.getAttribute("cliente_id");
+        return ResponseEntity.ok(findAllChatsUseCase.execute(UUID.fromString(clienteId.toString())));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChatResponseDTO> getChatDetails(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(findOneChatUseCase.execute(id));
+    }
+
+    @GetMapping("/{id}/mensagens")
+    public ResponseEntity<List<MensagemResponseDTO>> getMessages(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(findMessagesChatUseCase.execute(id));
     }
 
 }

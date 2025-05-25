@@ -18,20 +18,20 @@ public class CheckSaldoPrePagoUseCase implements CheckSaldo {
     private ClienteRepository clienteRepository;
 
     @Override
-    public void verificaSaldoCliente(ClienteEntity cliente, int mensagensNormais, int mensagensPrioritarias) {
+    public void verificaDescontaSaldoCliente(ClienteEntity cliente, Prioridade prioridade) {
         BigDecimal saldo = cliente.getConta().getSaldo();
-        if (valorNormal.multiply(new BigDecimal(mensagensNormais)).add(valorPrioritario.multiply(new BigDecimal(mensagensPrioritarias))).compareTo(saldo) > 0) {
+        BigDecimal valorUsado = Prioridade.URGENTE == prioridade ?
+                valorPrioritario :
+                valorNormal;
+        if (valorUsado.compareTo(saldo) > 0) {
             throw new SaldoInsuficienteException("Crédito", saldo);
         }
+        descontaSaldoCliente(cliente, prioridade, valorUsado);
     }
 
     @Override
-    public void descontaSaldoCliente(ClienteEntity cliente, Prioridade prioridade) {
-        if (Prioridade.NORMAL.equals(prioridade)) {
-            cliente.getConta().setLimiteConsumido(cliente.getConta().getLimiteConsumido().add(valorNormal));
-        } else {
-            cliente.getConta().setLimiteConsumido(cliente.getConta().getLimiteConsumido().add(valorPrioritario));
-        }
+    public void descontaSaldoCliente(ClienteEntity cliente, Prioridade prioridade, BigDecimal valor) {
+        cliente.getConta().setCredito(cliente.getConta().getCredito().subtract(valor));
         clienteRepository.save(cliente);
     }
 

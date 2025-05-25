@@ -23,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class MensagemEntity {
+public class MensagemEntity implements Comparable<MensagemEntity> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -65,4 +65,8 @@ public class MensagemEntity {
     @NotNull
     private boolean whatsapp;
 
+    @Override
+    public int compareTo(MensagemEntity mensagem) {
+        return this.prioridade.compareTo(mensagem.getPrioridade());
+    }
 }
