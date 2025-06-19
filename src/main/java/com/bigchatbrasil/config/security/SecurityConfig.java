@@ -45,8 +45,8 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(PERMIT_ALL_LIST).permitAll()
-                            .requestMatchers(CLIENTE_PERMISSIONS).hasRole("CLIENTE");
-                    auth.anyRequest().authenticated();
+                            .requestMatchers(CLIENTE_PERMISSIONS).hasRole("CLIENTE")
+                            .anyRequest().hasRole("ADMIN");
                 })
                 .addFilterBefore(clienteAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

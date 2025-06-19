@@ -3,7 +3,7 @@ package com.bigchatbrasil.modules.mensagem.entity;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
-import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.PrioridadeEnum;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -53,7 +53,7 @@ public class MensagemEntity implements Comparable<MensagemEntity> {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Prioridade prioridade;
+    private PrioridadeEnum prioridade;
 
     @NotNull
     @Enumerated(EnumType.STRING)

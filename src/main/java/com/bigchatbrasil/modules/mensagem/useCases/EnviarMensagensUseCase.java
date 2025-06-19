@@ -12,7 +12,7 @@ import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
 import com.bigchatbrasil.modules.mensagem.dto.MensagemResponseDTO;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.PrioridadeEnum;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import com.bigchatbrasil.modules.mensagem.interfaces.EnviarMensagem;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
@@ -52,7 +52,7 @@ public class EnviarMensagensUseCase {
         return MensagemResponseDTO.from(mensagemSalva);
     }
 
-    private void processarFila(ClienteEntity cliente, Prioridade prioridade) {
+    private void processarFila(ClienteEntity cliente, PrioridadeEnum prioridade) {
 
         CheckSaldo checkSaldo = estrategiasSaldos.stream()
                 .filter(estrategia -> cliente.getConta().getPlano().equals(estrategia.getPlano()))
@@ -84,7 +84,7 @@ public class EnviarMensagensUseCase {
         mensagemEntity.setPrioridade(mensagem.prioridade());
         mensagemEntity.setWhatsapp(mensagem.whatsapp());
         mensagemEntity.setStatus(StatusMensagem.NA_FILA);
-        mensagemEntity.setCusto(Prioridade.NORMAL.equals(mensagem.prioridade()) ? CheckSaldo.valorNormal : CheckSaldo.valorPrioritario);
+        mensagemEntity.setCusto(PrioridadeEnum.NORMAL.equals(mensagem.prioridade()) ? CheckSaldo.valorNormal : CheckSaldo.valorPrioritario);
         return mensagemEntity;
     }
 
