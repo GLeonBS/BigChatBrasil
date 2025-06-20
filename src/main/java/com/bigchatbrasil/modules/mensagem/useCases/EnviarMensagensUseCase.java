@@ -36,20 +36,16 @@ public class EnviarMensagensUseCase {
     public MensagemResponseDTO execute(CreateMensagemRequestDTO mensagem, UUID clienteId) {
         ClienteEntity cliente = findClienteUseCase.execute(clienteId);
 
-        // Valida e desconta saldo
         CheckSaldo checkSaldo = estrategiasSaldos.stream()
                 .filter(e -> e.getPlano().equals(cliente.getConta().getPlano()))
                 .findFirst()
                 .orElseThrow(PlanoNotFoundException::new);
         checkSaldo.verificaDescontaSaldoCliente(cliente, mensagem.prioridade());
 
-        // Monta entidade
         MensagemEntity mensagemEntity = montarMensagem(mensagem, cliente);
 
-        // Persiste com status NA_FILA
         MensagemEntity mensagemSalva = repository.save(mensagemEntity);
 
-        // Envia para a fila Rabbit
         rabbitTemplate.convertAndSend(MensagemConfig.NOME_EXCHANGE, MensagemConfig.ROUTING_KEY, mensagemSalva, message -> {
             int prioridade = mensagemEntity.getPrioridade().getNivel();
             message.getMessageProperties().setPriority(prioridade);

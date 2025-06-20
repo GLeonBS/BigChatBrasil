@@ -7,6 +7,7 @@ import com.bigchatbrasil.modules.mensagem.interfaces.EnviarMensagem;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,9 @@ public class MensagemConsumerUseCase {
     private MensagemRepository repository;
 
     @RabbitListener(queues = "#{filaMensagens.name}")
-    public void processMensagem(MensagemEntity mensagem) {
+    public void processMensagem(Message message, MensagemEntity mensagem) {
         System.out.println("Mensagem recebida: " + mensagem.getTexto());
+        System.out.println("Prioridade: " + message.getMessageProperties().getPriority());
         try {
             mensagem.setStatus(StatusMensagem.PROCESSANDO);
             repository.save(mensagem);
