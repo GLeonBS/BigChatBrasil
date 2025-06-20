@@ -1,7 +1,7 @@
 package com.bigchatbrasil.modules.mensagem.dto;
 
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.PrioridadeEnum;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ public record MensagemResponseDTO(
         UUID destinatarioId,
         String texto,
         LocalDateTime dataHoraEnvio,
-        Prioridade prioridade,
+        PrioridadeEnum prioridade,
         StatusMensagem status,
         BigDecimal custo
 ) {

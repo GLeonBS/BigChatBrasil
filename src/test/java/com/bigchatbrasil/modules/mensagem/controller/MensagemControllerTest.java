@@ -10,7 +10,7 @@ import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
 import com.bigchatbrasil.modules.destinatario.repository.DestinatarioRepository;
 import com.bigchatbrasil.modules.mensagem.dto.CreateMensagemRequestDTO;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.PrioridadeEnum;
 import com.bigchatbrasil.modules.mensagem.repository.MensagemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,9 +72,9 @@ class MensagemControllerTest {
         ChatEntity chatSalvo = chatRepository.saveAndFlush(Fixtures.createChat(null, clienteSalvo, destinatario));
         ChatEntity chatSalvo2 = chatRepository.saveAndFlush(Fixtures.createChat(null, clienteSalvo, destinatario2));
 
-        CreateMensagemRequestDTO createMensagemRequestDTO = new CreateMensagemRequestDTO(chatSalvo.getId(), destinatario2.getId(), "Teste", Prioridade.NORMAL,
+        CreateMensagemRequestDTO createMensagemRequestDTO = new CreateMensagemRequestDTO(chatSalvo.getId(), destinatario2.getId(), "Teste", PrioridadeEnum.NORMAL,
                 false);
-        CreateMensagemRequestDTO createMensagemRequestDTO2 = new CreateMensagemRequestDTO(chatSalvo2.getId(), destinatario2.getId(), "Teste", Prioridade.URGENTE,
+        CreateMensagemRequestDTO createMensagemRequestDTO2 = new CreateMensagemRequestDTO(chatSalvo2.getId(), destinatario2.getId(), "Teste", PrioridadeEnum.URGENTE,
                 true);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/mensagem")
