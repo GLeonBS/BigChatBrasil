@@ -6,7 +6,6 @@ spring:
     username: postgres
     password: postgres
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: none
     properties:
@@ -14,6 +13,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: classpath:db/changelog/master.xml
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 server:
   port: 8080
@@ -21,6 +25,11 @@ server:
     context-path: "/api"
   error:
     include-stacktrace: never
+
+tarifa:
+  mensagem:
+    normal: 0.25
+    prioritaria: 0.50
 
 security:
   token:

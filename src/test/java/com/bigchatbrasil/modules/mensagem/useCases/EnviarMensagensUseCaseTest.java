@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,16 +45,13 @@ class EnviarMensagensUseCaseTest {
     private CheckSaldoPrePagoUseCase checkSaldoPrePagoUseCase;
 
     @Mock
-    private EnviarMensagemWhatsappUseCase enviarMensagemWhatsappUseCase;
-
-    @Mock
-    private EnviarMensagemSMSUseCase enviarMensagemSMSUseCase;
-
-    @Mock
     private FindClienteUseCase findClienteUseCase;
 
     @Mock
     private DestinatarioRepository destinatarioRepository;
+
+    @Mock
+    private RabbitTemplate rabbitTemplate;
 
     @InjectMocks
     private EnviarMensagensUseCase enviarMensagensUseCase;
@@ -61,9 +59,9 @@ class EnviarMensagensUseCaseTest {
     @BeforeEach
     void setUp() {
         enviarMensagensUseCase = new EnviarMensagensUseCase(repository, chatRepository,
+                destinatarioRepository, findClienteUseCase,
                 List.of(checkSaldoPosPagoUseCase, checkSaldoPrePagoUseCase),
-                List.of(enviarMensagemWhatsappUseCase, enviarMensagemSMSUseCase), findClienteUseCase,
-                destinatarioRepository);
+                rabbitTemplate);
     }
 
     @Test
@@ -95,6 +93,7 @@ class EnviarMensagensUseCaseTest {
         mensagemEntity.setDestinatario(destinatario);
 
         when(checkSaldoPrePagoUseCase.getPlano()).thenReturn(PlanoEnum.PRE_PAGO);
+        when(checkSaldoPosPagoUseCase.getPlano()).thenReturn(PlanoEnum.POS_PAGO);
         when(findClienteUseCase.execute(clientId)).thenReturn(cliente);
         when(chatRepository.findById(chatId)).thenReturn(java.util.Optional.of(chatEntity));
         when(destinatarioRepository.findById(destinatarioId)).thenReturn(java.util.Optional.of(destinatario));

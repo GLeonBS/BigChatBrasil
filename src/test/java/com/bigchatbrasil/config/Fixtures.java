@@ -8,7 +8,7 @@ import com.bigchatbrasil.modules.cliente.enums.TipoDocumentoEnum;
 import com.bigchatbrasil.modules.cliente.vo.Conta;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
 import com.bigchatbrasil.modules.mensagem.entity.MensagemEntity;
-import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.PrioridadeEnum;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 
 import java.math.BigDecimal;
@@ -51,7 +51,7 @@ public class Fixtures {
         mensagem.setCliente(chat.getRemetente());
         mensagem.setDestinatario(chat.getDestinatario());
         mensagem.setDataHoraEnvio(LocalDateTime.of(2025, 5, 25, 11, 2));
-        mensagem.setPrioridade(Prioridade.NORMAL);
+        mensagem.setPrioridade(PrioridadeEnum.NORMAL);
         mensagem.setStatus(StatusMensagem.ENTREGUE);
         mensagem.setCusto(BigDecimal.valueOf(0.25));
         mensagem.setWhatsapp(false);

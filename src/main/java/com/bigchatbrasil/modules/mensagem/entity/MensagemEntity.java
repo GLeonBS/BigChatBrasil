@@ -3,7 +3,7 @@ package com.bigchatbrasil.modules.mensagem.entity;
 import com.bigchatbrasil.modules.chat.entity.ChatEntity;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.destinatario.entity.DestinatarioEntity;
-import com.bigchatbrasil.modules.mensagem.enums.Prioridade;
+import com.bigchatbrasil.modules.mensagem.enums.PrioridadeEnum;
 import com.bigchatbrasil.modules.mensagem.enums.StatusMensagem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class MensagemEntity implements Comparable<MensagemEntity> {
+public class MensagemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -52,8 +52,7 @@ public class MensagemEntity implements Comparable<MensagemEntity> {
     private LocalDateTime dataHoraEnvio;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private Prioridade prioridade;
+    private PrioridadeEnum prioridade;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -64,9 +63,4 @@ public class MensagemEntity implements Comparable<MensagemEntity> {
 
     @NotNull
     private boolean whatsapp;
-
-    @Override
-    public int compareTo(MensagemEntity mensagem) {
-        return this.prioridade.compareTo(mensagem.getPrioridade());
-    }
 }
