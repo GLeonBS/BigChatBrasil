@@ -1,6 +1,7 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
 import com.bigchatbrasil.config.Fixtures;
+import com.bigchatbrasil.config.TarifaMensagemConfig;
 import com.bigchatbrasil.exceptions.SaldoInsuficienteException;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
@@ -18,18 +19,25 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 class CheckSaldoPrePagoUseCaseTest {
-
+    
     @InjectMocks
     private CheckSaldoPrePagoUseCase checkSaldoPrePagoUseCase;
 
     @Mock
     private ClienteRepository clienteRepository;
 
+    @Mock
+    private TarifaMensagemConfig tarifaMensagemConfig;
+
     @Test
     void verificaDescontaSaldoCliente() {
+        lenient().when(tarifaMensagemConfig.getValorNormal()).thenReturn(new BigDecimal("0.25"));
+        lenient().when(tarifaMensagemConfig.getValorPrioritaria()).thenReturn(new BigDecimal("0.50"));
+
         ClienteEntity cliente = Fixtures.createCliente(UUID.randomUUID());
 
         Assertions.assertDoesNotThrow(() -> checkSaldoPrePagoUseCase.verificaDescontaSaldoCliente(cliente, PrioridadeEnum.NORMAL));
@@ -37,6 +45,9 @@ class CheckSaldoPrePagoUseCaseTest {
 
     @Test
     void verificaDescontaSaldoClienteInvalido() {
+        lenient().when(tarifaMensagemConfig.getValorNormal()).thenReturn(new BigDecimal("0.25"));
+        lenient().when(tarifaMensagemConfig.getValorPrioritaria()).thenReturn(new BigDecimal("0.50"));
+
         ClienteEntity cliente = Fixtures.createCliente(UUID.randomUUID());
         cliente.getConta().setSaldo(BigDecimal.ZERO);
 
@@ -47,6 +58,9 @@ class CheckSaldoPrePagoUseCaseTest {
 
     @Test
     void getPlano() {
+        lenient().when(tarifaMensagemConfig.getValorNormal()).thenReturn(new BigDecimal("0.25"));
+        lenient().when(tarifaMensagemConfig.getValorPrioritaria()).thenReturn(new BigDecimal("0.50"));
+
         assertThat(checkSaldoPrePagoUseCase.getPlano()).isEqualTo(PlanoEnum.PRE_PAGO);
     }
 }

@@ -42,7 +42,7 @@ public class EnviarMensagensUseCase {
                 .orElseThrow(PlanoNotFoundException::new);
         checkSaldo.verificaDescontaSaldoCliente(cliente, mensagem.prioridade());
 
-        MensagemEntity mensagemEntity = montarMensagem(mensagem, cliente);
+        MensagemEntity mensagemEntity = montarMensagem(mensagem, cliente, checkSaldo);
 
         MensagemEntity mensagemSalva = repository.save(mensagemEntity);
 
@@ -55,7 +55,7 @@ public class EnviarMensagensUseCase {
         return MensagemResponseDTO.from(mensagemSalva);
     }
 
-    private MensagemEntity montarMensagem(CreateMensagemRequestDTO dto, ClienteEntity cliente) {
+    private MensagemEntity montarMensagem(CreateMensagemRequestDTO dto, ClienteEntity cliente, CheckSaldo checkSaldo) {
         MensagemEntity mensagem = new MensagemEntity();
         mensagem.setCliente(cliente);
         mensagem.setChat(chatRepository.findById(dto.chatId()).orElseThrow(ChatNotFoundException::new));
@@ -64,7 +64,7 @@ public class EnviarMensagensUseCase {
         mensagem.setWhatsapp(dto.whatsapp());
         mensagem.setPrioridade(dto.prioridade());
         mensagem.setStatus(StatusMensagem.NA_FILA);
-        mensagem.setCusto(dto.prioridade() == PrioridadeEnum.URGENTE ? CheckSaldo.valorPrioritario : CheckSaldo.valorNormal);
+        mensagem.setCusto(dto.prioridade() == PrioridadeEnum.URGENTE ? checkSaldo.getValorPrioritario() : checkSaldo.getValorNormal());
         return mensagem;
     }
 }

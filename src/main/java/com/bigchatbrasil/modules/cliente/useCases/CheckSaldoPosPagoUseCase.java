@@ -1,5 +1,6 @@
 package com.bigchatbrasil.modules.cliente.useCases;
 
+import com.bigchatbrasil.config.TarifaMensagemConfig;
 import com.bigchatbrasil.exceptions.SaldoInsuficienteException;
 import com.bigchatbrasil.modules.cliente.entity.ClienteEntity;
 import com.bigchatbrasil.modules.cliente.enums.PlanoEnum;
@@ -16,13 +17,14 @@ import java.math.BigDecimal;
 public class CheckSaldoPosPagoUseCase implements CheckSaldo {
 
     private ClienteRepository clienteRepository;
+    private TarifaMensagemConfig tarifaMensagemConfig;
 
     @Override
     public void verificaDescontaSaldoCliente(ClienteEntity cliente, PrioridadeEnum prioridade) {
         BigDecimal saldo = cliente.getConta().getSaldo();
         BigDecimal valorUsado = PrioridadeEnum.URGENTE == prioridade ?
-                valorPrioritario :
-                valorNormal;
+                getValorPrioritario() :
+                getValorNormal();
         if (valorUsado.compareTo(saldo) > 0) {
             throw new SaldoInsuficienteException("Limite", saldo);
         }
@@ -39,5 +41,15 @@ public class CheckSaldoPosPagoUseCase implements CheckSaldo {
     @Override
     public PlanoEnum getPlano() {
         return PlanoEnum.POS_PAGO;
+    }
+
+    @Override
+    public BigDecimal getValorNormal() {
+        return tarifaMensagemConfig.getValorNormal();
+    }
+
+    @Override
+    public BigDecimal getValorPrioritario() {
+        return tarifaMensagemConfig.getValorPrioritaria();
     }
 }
